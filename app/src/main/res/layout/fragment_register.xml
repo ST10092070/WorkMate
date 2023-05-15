@@ -38,6 +38,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"/>
 
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="30dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,7 +117,14 @@
             android:layout_height="wrap_content"
             android:text="Already have an account? Log In"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"/>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 

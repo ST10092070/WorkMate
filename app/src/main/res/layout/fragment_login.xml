@@ -23,7 +23,13 @@
             android:textSize="34sp"
             android:textStyle="bold"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="30"/>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="30dp"/>
 
 
         <ImageView
@@ -103,7 +109,14 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green"
             android:text="Log In"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp"/>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 

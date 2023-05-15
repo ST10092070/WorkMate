@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ProjectDetailsFragment"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(Project Name)"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/imgProjectImage"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/txtTimeSpentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Time Spent:  "
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/txtTimeSpent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00 hrs"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Records"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp"/>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="30dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recviewRecords"
+            android:layout_width="match_parent"
+            android:layout_height="325dp" />
+
+        <Button
+            android:id="@+id/btnChooseColour"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/lightRed"
+            android:text="Start Tracking"
+            android:textSize="11sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
