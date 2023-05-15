@@ -33,7 +33,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CURRENT PROJECTS"
+            android:text="CURRENT CATEGORIES"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -76,10 +76,10 @@
 
         <Button
             android:id="@+id/btnCreate"
-            android:layout_width="180dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlue"
-            android:text="new project"
+            android:text="new CATEGORY"
             android:textSize="14dp"
             android:textColor="@color/black"
             android:layout_gravity="right"
