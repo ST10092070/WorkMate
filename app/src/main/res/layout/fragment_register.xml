@@ -103,7 +103,7 @@
             android:backgroundTint="@color/green"
             android:text="register"
             android:textSize="16dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/txtLogIn"
