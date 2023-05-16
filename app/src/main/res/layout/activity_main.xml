@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:layout_weight="7"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
             android:layout_marginStart="3dp"
             android:background="@drawable/oval_shape" >
 
@@ -30,8 +29,7 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="" />
+            android:layout_weight="3"/>
 
         <View
             android:layout_width="40dp"
@@ -41,7 +39,7 @@
 
     </LinearLayout>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
