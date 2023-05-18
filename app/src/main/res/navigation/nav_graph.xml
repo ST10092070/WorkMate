@@ -11,13 +11,28 @@
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
-        android:id="@+id/createProjectFragment"
-        android:name="com.opsc.workmate.ui.CreateProjectFragment"
-        android:label="fragment_create_project"
-        tools:layout="@layout/fragment_create_project" />
-    <fragment
         android:id="@+id/newEntryFragment"
         android:name="com.opsc.workmate.ui.NewEntryFragment"
         android:label="fragment_new_entry"
         tools:layout="@layout/fragment_new_entry" />
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.opsc.workmate.ui.ReportsFragment"
+        android:label="fragment_reportsfragment"
+        tools:layout="@layout/fragment_reportsfragment" />
+    <fragment
+        android:id="@+id/graphsFragment"
+        android:name="com.opsc.workmate.ui.GraphsFragment"
+        android:label="fragment_graphs"
+        tools:layout="@layout/fragment_graphs" />
+    <fragment
+        android:id="@+id/createCategoryFragment"
+        android:name="com.opsc.workmate.ui.CreateCategoryFragment"
+        android:label="fragment_create_category"
+        tools:layout="@layout/fragment_create_category" />
+    <fragment
+        android:id="@+id/categoryDetailsFragment"
+        android:name="com.opsc.workmate.ui.CategoryDetailsFragment"
+        android:label="fragment_category_details"
+        tools:layout="@layout/fragment_category_details" />
 </navigation>
