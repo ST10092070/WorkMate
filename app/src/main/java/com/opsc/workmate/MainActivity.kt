@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                     true
                 }
-                R.id.createProjectFragment -> {
+                R.id.createCategoryFragment -> {
                     // Handle the Add Category menu item click
-                    navController.navigate(R.id.createProjectFragment)
+                    navController.navigate(R.id.createCategoryFragment)
                     drawerLayout.closeDrawers()
                     true
                 }
@@ -64,6 +64,25 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                     true
                 }
+                R.id.graphsFragment -> {
+                    // Handle the Add Entry menu item click
+                    navController.navigate(R.id.graphsFragment)
+                    drawerLayout.closeDrawers()
+                    true
+                }
+                R.id.reportsFragment -> {
+                    // Handle the Add Entry menu item click
+                    navController.navigate(R.id.reportsFragment)
+                    drawerLayout.closeDrawers()
+                    true
+                }
+                R.id.categoryDetailsFragment -> {
+                    // Handle the Add Entry menu item click
+                    navController.navigate(R.id.categoryDetailsFragment)
+                    drawerLayout.closeDrawers()
+                    true
+                }
+
                 else -> false
             }
         }

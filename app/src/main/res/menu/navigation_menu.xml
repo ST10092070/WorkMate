@@ -8,11 +8,23 @@
         android:title="Dashboard" />
 
     <item
-        android:id="@+id/createProjectFragment"
+        android:id="@+id/createCategoryFragment"
         android:title="Add Category" />
 
     <item
         android:id="@+id/newEntryFragment"
         android:title="Add Entry" />
+
+    <item
+        android:id="@+id/graphsFragment"
+        android:title="graphs" />
+
+    <item
+        android:id="@+id/reportsFragment"
+        android:title="Reports" />
+
+    <item
+        android:id="@+id/categoryDetailsFragment"
+        android:title="category Details" />
 
 </menu>
