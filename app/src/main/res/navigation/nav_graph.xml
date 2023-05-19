@@ -9,7 +9,14 @@
         android:id="@+id/dashboardFragment"
         android:name="com.opsc.workmate.ui.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_createCategoryFragment"
+            app:destination="@id/createCategoryFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_categoryDetailsFragment"
+            app:destination="@id/categoryDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newEntryFragment"
         android:name="com.opsc.workmate.ui.NewEntryFragment"

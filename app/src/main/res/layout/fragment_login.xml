@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Sign Up"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txtSpacer"
