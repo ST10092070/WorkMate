@@ -11,13 +11,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="top">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/currency"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/coin"
+                    android:textColor="#529C90"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/txtCurrency"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="386"
+                    android:textColor="@color/gold"
+                    android:textSize="25dp" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Create New Category"
             android:textColor="@color/white"
             android:textSize="34sp"
@@ -27,6 +67,7 @@
         <View
             android:layout_width="350dp"
             android:layout_height="1dp"
+            android:layout_gravity="center"
             android:background="@android:color/black"
             android:layout_marginBottom="30dp"/>
 
@@ -34,6 +75,7 @@
             android:id="@+id/txtProjectName"
             android:layout_width="250dp"
             android:layout_height="48dp"
+            android:layout_gravity="center"
             android:background="@color/white"
             android:hint="Project name..."
             android:inputType="text"
@@ -44,6 +86,7 @@
             android:id="@+id/btnChooseColour"
             android:layout_width="140dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/lightRed"
             android:text="Choose Colour"
             android:textSize="11sp"
@@ -54,6 +97,7 @@
             android:id="@+id/imgProjectImage"
             android:layout_width="180dp"
             android:layout_height="180dp"
+            android:layout_gravity="center"
             tools:src="@tools:sample/backgrounds/scenic"
             android:scaleType="centerCrop"
             android:layout_marginBottom="14dp"/>
@@ -62,6 +106,7 @@
             android:id="@+id/btnUploadImg"
             android:layout_width="160dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/lightGreen"
             android:text="Upload Image"
             android:textSize="11sp"
@@ -73,6 +118,7 @@
             android:id="@+id/btnCreate"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:backgroundTint="@color/lightBlue"
             android:text="create category"
             android:textSize="16dp"
@@ -83,6 +129,7 @@
         <View
             android:layout_width="350dp"
             android:layout_height="1dp"
+            android:layout_gravity="center"
             android:background="@android:color/black"
             android:layout_marginBottom="30dp"/>
 

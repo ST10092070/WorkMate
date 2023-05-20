@@ -13,16 +13,54 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/textView2"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(category Name)"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:layout_gravity="left"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:orientation="horizontal">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:background="@drawable/currency">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/coin"
+                    android:textColor="#529C90"
+                    android:textSize="35dp"/>
+
+                <TextView
+                    android:id="@+id/txtCurrency"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:text="386"
+                    android:textColor="@color/gold"
+                    android:textSize="25dp"/>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:text="CATEGORY NAME"
+                android:textStyle="bold"
+                android:textColor="@color/lightRed"
+                android:textSize="25dp"/>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
             android:id="@+id/imgProjectImage"
