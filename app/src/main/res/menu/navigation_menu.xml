@@ -19,6 +19,11 @@
         android:title="Add Entry" />
 
     <item
+        android:id="@+id/entriesFragment"
+        android:icon="@drawable/icon_list"
+        android:title="Entries" />
+
+    <item
         android:id="@+id/graphsFragment"
         android:icon="@drawable/menu_graphs"
         android:title="graphs" />

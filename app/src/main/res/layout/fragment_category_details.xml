@@ -13,68 +13,29 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="110dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/currency">
-
-                <TextView
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/coin"
-                    android:textColor="#529C90"
-                    android:textSize="35dp"/>
-
-                <TextView
-                    android:id="@+id/txtCurrency"
-                    android:layout_width="45dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center"
-                    android:text="386"
-                    android:textColor="@color/gold"
-                    android:textSize="25dp"/>
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:text="CATEGORY NAME"
-                android:textStyle="bold"
-                android:textColor="@color/lightRed"
-                android:textSize="25dp"/>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:text="(category Name)"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"/>
 
         <ImageView
             android:id="@+id/imgProjectImage"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_180sdp"
             tools:src="@tools:sample/backgrounds/scenic"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/_10sdp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/txtTimeSpentText"
@@ -91,9 +52,20 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnChooseColour"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:backgroundTint="@color/green"
+            android:text="Add Entry"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp" />
+
         <View
-            android:layout_width="250dp"
-            android:layout_height="2dp"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_2sdp"
             android:background="@android:color/darker_gray" />
 
         <TextView
@@ -102,32 +74,23 @@
             android:layout_height="wrap_content"
             android:text="Records"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="@dimen/_25ssp"
             android:textStyle="bold"
-            android:layout_marginBottom="2dp"/>
+            android:layout_marginBottom="@dimen/_2sdp"/>
 
         <View
-            android:layout_width="250dp"
-            android:layout_height="2dp"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_2sdp"
             android:background="@android:color/darker_gray"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="@dimen/_30sdp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recviewRecords"
             android:layout_width="match_parent"
-            android:layout_height="325dp" />
+            android:layout_height="wrap_content"
+            />
 
-        <Button
-            android:id="@+id/btnChooseColour"
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/lightRed"
-            android:text="Add Entry"
-            android:textSize="11sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="right"/>
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

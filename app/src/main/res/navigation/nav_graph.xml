@@ -42,4 +42,9 @@
         android:name="com.opsc.workmate.ui.CategoryDetailsFragment"
         android:label="fragment_category_details"
         tools:layout="@layout/fragment_category_details" />
+    <fragment
+        android:id="@+id/entriesFragment"
+        android:name="com.opsc.workmate.ui.EntriesFragment"
+        android:label="fragment_entries"
+        tools:layout="@layout/fragment_entries" />
 </navigation>

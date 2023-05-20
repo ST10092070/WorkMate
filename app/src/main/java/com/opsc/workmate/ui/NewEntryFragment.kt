@@ -1,33 +1,30 @@
 package com.opsc.workmate.ui
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import com.opsc.workmate.R
+import java.util.Calendar
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NewEntryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NewEntryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    //Variables
+    private lateinit var btnStartTime: Button
+    private lateinit var btnEndTime: Button
+    private lateinit var btnDate: Button
+
+    private val calendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,26 +32,70 @@ class NewEntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_entry, container, false)
+        val view = inflater.inflate(R.layout.fragment_new_entry, container, false)
+
+        btnStartTime = view.findViewById(R.id.btnStartTimePicker)
+        btnStartTime.setOnClickListener {
+            showTimePickerDialog(btnStartTime)
+        }
+
+        btnEndTime = view.findViewById(R.id.btnEndTimePicker)
+        btnEndTime.setOnClickListener {
+            showTimePickerDialog(btnEndTime)
+        }
+
+        btnDate = view.findViewById(R.id.btnDatePicker)
+        btnDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NewEntryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NewEntryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showTimePickerDialog(button: Button) {
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+                calendar.set(Calendar.HOUR_OF_DAY, selectedHour)
+                calendar.set(Calendar.MINUTE, selectedMinute)
+
+                // Update button text with the selected time
+                val formattedTime = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(calendar.time)
+                button.text = formattedTime
+            },
+            hour,
+            minute,
+            false
+        )
+
+        timePickerDialog.show()
     }
+
+    private fun showDatePickerDialog() {
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                calendar.set(Calendar.YEAR, selectedYear)
+                calendar.set(Calendar.MONTH, selectedMonth)
+                calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth)
+
+                // Update button text with the selected date
+                val formattedDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(calendar.time)
+                btnDate.text = formattedDate
+            },
+            year,
+            month,
+            dayOfMonth
+        )
+
+        datePickerDialog.show()
+    }
+
 }
