@@ -48,7 +48,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
-            android:layout_marginBottom="@dimen/_2sdp"/>
+            android:layout_marginBottom="@dimen/_2sdp"
+            tools:listitem="@layout/list_category_item"/>
 
         <Button
             android:id="@+id/btnCreate"

@@ -21,10 +21,10 @@
             android:gravity="center|left">
 
             <TextView
-                android:id="@+id/txtEntryDate"
+                android:id="@+id/txtCategoryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00 MMMM 0000"
+                android:text="Category Name"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:textColor="@color/white"/>
 
@@ -35,21 +35,7 @@
                 android:layout_marginLeft="@dimen/_5sdp"/>
 
             <TextView
-                android:id="@+id/txtStartEndTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00 -> 00:00"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:textColor="@color/white"/>
-
-            <View
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="@dimen/_14sdp"
-                android:background="@color/black"
-                android:layout_marginLeft="@dimen/_5sdp"/>
-
-            <TextView
-                android:id="@+id/txtDuration"
+                android:id="@+id/txtCategoryduration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00 hrs"
@@ -63,7 +49,7 @@
                 android:layout_marginLeft="@dimen/_5sdp"/>
 
             <ImageView
-                android:id="@+id/imgHasImage"
+                android:id="@+id/imgCategoryHasImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_img"
@@ -79,13 +65,14 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="@dimen/_14sdp"
                     android:background="@color/black"
-                    android:layout_marginLeft="@dimen/_5sdp"/>
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"/>
 
-                <ImageView
-                    android:id="@+id/imgDeleteEntry"
+                <Button
+                    android:id="@+id/btnViewCategory"
+                    android:text="Track"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_delete"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
