@@ -62,8 +62,6 @@ class LoginFragment : Fragment() {
 
     private fun validateLogin(): Boolean {
         //TODO: Implement validation for login
-
-
         //Use this method, return true for successful, return false for fail
         return true
     }

@@ -13,37 +13,6 @@
         android:gravity="top|center"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="-100dp"
-            android:layout_gravity="left"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            android:background="@drawable/currency">
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center"
-                android:background="@drawable/coin"
-                android:textColor="#529C90"
-                android:textSize="35dp"/>
-
-            <TextView
-                android:id="@+id/txtCurrency"
-                android:layout_width="45dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="center"
-                android:text="386"
-                android:textColor="@color/gold"
-                android:textSize="25dp"/>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"

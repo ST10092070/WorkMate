@@ -1,131 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background"
     tools:context=".ui.GraphsFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:background="@drawable/currency">
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center"
-                android:background="@drawable/coin"
-                android:textColor="#529C90"
-                android:textSize="35dp"/>
-
-            <TextView
-                android:id="@+id/txtCurrency"
-                android:layout_width="45dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="center"
-                android:text="386"
-                android:textColor="@color/gold"
-                android:textSize="25dp"/>
-
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="35dp"
-            android:text="GRAPHS"
-            android:textColor="@color/lightGreen"
-            android:textSize="35dp"
-            android:textStyle="bold"/>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Date"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
-
-        <EditText
-            android:id="@+id/editStartDate"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-        <CalendarView
-            android:id="@+id/calendarStart"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="End Date"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
-
-        <EditText
-            android:id="@+id/editEndDate"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-        <CalendarView
-            android:id="@+id/calendarEnd"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</FrameLayout>
