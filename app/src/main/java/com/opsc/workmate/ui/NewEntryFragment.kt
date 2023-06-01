@@ -1,15 +1,24 @@
 package com.opsc.workmate.ui
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.opsc.workmate.R
 import java.util.Calendar
 import java.util.Locale
@@ -20,8 +29,16 @@ class NewEntryFragment : Fragment() {
     private lateinit var btnStartTime: Button
     private lateinit var btnEndTime: Button
     private lateinit var btnDate: Button
+    private lateinit var imgEntryImage: ImageView
+    private lateinit var btnUploadImg: Button
 
     private val calendar: Calendar = Calendar.getInstance()
+
+    companion object {
+        private const val REQUEST_IMAGE_PICKER = 100 // Constant for image picker request code
+        private const val PERMISSION_REQUEST_CODE = 101 // Constant for permission request code
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +69,62 @@ class NewEntryFragment : Fragment() {
             showDatePickerDialog()
         }
 
+        //Implemente image upload
+        imgEntryImage = view.findViewById(R.id.imgEntryImage)
+        btnUploadImg = view.findViewById(R.id.btnUploadImg)
+
+        btnUploadImg.setOnClickListener {
+            checkPermissionsAndOpenImagePicker()
+        }
+
         return view
+    }
+
+    // Handle permission request result
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openImagePicker()
+            }
+        }
+    }
+
+    // Check and request necessary permissions for image upload
+    private fun checkPermissionsAndOpenImagePicker() {
+        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(permission),
+                PERMISSION_REQUEST_CODE
+            )
+        } else {
+            openImagePicker()
+        }
+    }
+
+    // Open the image picker (gallery)
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_IMAGE_PICKER)
+    }
+
+    // Handle the result of the image picker
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
+            val imageUri: Uri? = data.data
+            imgEntryImage.setImageURI(imageUri)
+        }
     }
 
     private fun showTimePickerDialog(button: Button) {
