@@ -36,7 +36,11 @@
         android:id="@+id/createCategoryFragment"
         android:name="com.opsc.workmate.ui.CreateCategoryFragment"
         android:label="fragment_create_category"
-        tools:layout="@layout/fragment_create_category" />
+        tools:layout="@layout/fragment_create_category" >
+        <action
+            android:id="@+id/action_createCategoryFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryDetailsFragment"
         android:name="com.opsc.workmate.ui.CategoryDetailsFragment"

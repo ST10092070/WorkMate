@@ -4,22 +4,33 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Category
+import com.opsc.workmate.data.Global
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import eltos.simpledialogfragment.color.SimpleColorWheelDialog
+import org.w3c.dom.Text
+import java.io.ByteArrayOutputStream
 
 
 class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
@@ -29,6 +40,8 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     private lateinit var btnCreate: Button
     private lateinit var imgCategoryImage: ImageView
     private lateinit var btnUploadImg: Button
+    private lateinit var txtCategoryName: EditText
+
     private var selectedColor: Int = Color.WHITE
 
     companion object {
@@ -48,9 +61,10 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         //Initialise variables
         btnChooseColour = view.findViewById(R.id.btnChooseColour)
-        btnCreate = view.findViewById(R.id.btnCreate)
+        btnCreate = view.findViewById(R.id.btnCreateCategory)
         imgCategoryImage = view.findViewById(R.id.imgCategoryImage)
-        btnUploadImg = view.findViewById(R.id.btnUploadImg)
+        btnUploadImg = view.findViewById(R.id.btnUploadImgCategory)
+        txtCategoryName = view.findViewById(R.id.txtCategoryName)
 
         //Implement colour picker
         btnChooseColour.setOnClickListener {
@@ -62,10 +76,60 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
             checkPermissionsAndOpenImagePicker()
         }
 
-        //rest goes here
+        //Implement create category button
+        btnCreate.setOnClickListener {
+            var isCreated : Boolean = createCategory()
+            if (isCreated) {
+                //Navigate to dashboard if successful
+                // Get the NavController
+                val navController = Navigation.findNavController(view)
+                // Navigate to the registerFragment
+                navController.navigate(R.id.action_createCategoryFragment_to_dashboardFragment)
+            }
+        }
 
         return view
+    }
 
+    private fun createCategory(): Boolean {
+        //Variables
+        var name : String
+        var colour : String
+        var imageData : String
+
+        //Get data from page
+        name = txtCategoryName.text.toString()
+        colour = btnChooseColour.background.toString()
+        imageData = convertImageToBase64(imgCategoryImage).toString()
+
+        if (name == "") {
+            Toast.makeText(activity, "Enter a name", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        val category = Category(
+            Global.currentUser?.username ?: "",
+            name,
+            colour,
+            imageData
+        )
+        Global.categories.add(category)
+        Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    private fun convertImageToBase64(imageView: ImageView): String? {
+        val drawable = imageView.drawable
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+            if (bitmap != null) {
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                val byteArray = byteArrayOutputStream.toByteArray()
+                return Base64.encodeToString(byteArray, Base64.DEFAULT)
+            }
+        }
+        return null
     }
 
     // Handle permission request result
