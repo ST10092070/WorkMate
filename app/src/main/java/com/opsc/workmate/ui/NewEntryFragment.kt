@@ -34,16 +34,19 @@ class NewEntryFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_new_entry, container, false)
 
+        //Implement timepicker
         btnStartTime = view.findViewById(R.id.btnStartTimePicker)
         btnStartTime.setOnClickListener {
             showTimePickerDialog(btnStartTime)
         }
 
+        //Implement timepicker
         btnEndTime = view.findViewById(R.id.btnEndTimePicker)
         btnEndTime.setOnClickListener {
             showTimePickerDialog(btnEndTime)
         }
 
+        //Implement datepicker
         btnDate = view.findViewById(R.id.btnDatePicker)
         btnDate.setOnClickListener {
             showDatePickerDialog()

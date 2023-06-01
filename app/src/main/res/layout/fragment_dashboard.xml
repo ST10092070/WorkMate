@@ -60,7 +60,7 @@
             android:textSize="@dimen/_11ssp"
             android:textColor="@color/black"
             android:drawableEnd="@drawable/icon_library_add"
-            android:layout_marginBottom="@dimen/_2sdp"            />
+            android:layout_marginBottom="@dimen/_2sdp" />
 
 
         <View
