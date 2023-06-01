@@ -70,7 +70,7 @@
 
                 <Button
                     android:id="@+id/btnViewCategory"
-                    android:text="Track"
+                    android:text="View"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>

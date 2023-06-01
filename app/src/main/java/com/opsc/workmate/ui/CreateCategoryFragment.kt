@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.RippleDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,8 +19,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -27,9 +29,7 @@ import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Global
 import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.color.SimpleColorDialog
 import eltos.simpledialogfragment.color.SimpleColorWheelDialog
-import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 
 
@@ -41,6 +41,8 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     private lateinit var imgCategoryImage: ImageView
     private lateinit var btnUploadImg: Button
     private lateinit var txtCategoryName: EditText
+    @ColorInt var colour = 0
+
 
     private var selectedColor: Int = Color.WHITE
 
@@ -94,12 +96,13 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     private fun createCategory(): Boolean {
         //Variables
         var name : String
-        var colour : String
         var imageData : String
 
         //Get data from page
         name = txtCategoryName.text.toString()
-        colour = btnChooseColour.background.toString()
+
+
+
         imageData = convertImageToBase64(imgCategoryImage).toString()
 
         if (name == "") {
@@ -196,6 +199,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
                 // Handle the selected color
                 selectedColor = color
                 btnChooseColour.setBackgroundColor(selectedColor)
+                colour = extras.getInt(SimpleColorWheelDialog.COLOR)
                 return true // Dialog result was handled
             }
         }

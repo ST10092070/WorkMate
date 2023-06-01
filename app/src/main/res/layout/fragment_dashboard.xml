@@ -46,6 +46,7 @@
             android:layout_marginBottom="@dimen/_7sdp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lstCategories"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
             android:layout_marginBottom="@dimen/_2sdp"
