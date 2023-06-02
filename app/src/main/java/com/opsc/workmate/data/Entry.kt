@@ -6,9 +6,8 @@ import java.time.LocalTime
 class Entry(
     val username: String,
     val categoryName: String,
-    val date: LocalDate,
-    val startTime: LocalTime,
-    val endTime: LocalTime,
-    val image: String?
-    ) {
-}
+    val date: String,
+    val startTime: String,
+    val endTime: String,
+    val imageData: String?
+)

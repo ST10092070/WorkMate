@@ -2,24 +2,32 @@ package com.opsc.workmate.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Entry
+import com.opsc.workmate.data.Global
+import java.io.ByteArrayOutputStream
 import java.util.Calendar
 import java.util.Locale
 
@@ -29,8 +37,13 @@ class NewEntryFragment : Fragment() {
     private lateinit var btnStartTime: Button
     private lateinit var btnEndTime: Button
     private lateinit var btnDate: Button
+    private lateinit var txtDescription: EditText
     private lateinit var imgEntryImage: ImageView
     private lateinit var btnUploadImg: Button
+    private lateinit var btnCreate: Button
+    private lateinit var btnCategoryPicker: Button
+    private lateinit var categoryNames: List<String>
+
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -39,45 +52,103 @@ class NewEntryFragment : Fragment() {
         private const val PERMISSION_REQUEST_CODE = 101 // Constant for permission request code
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_new_entry, container, false)
 
-        //Implement timepicker
         btnStartTime = view.findViewById(R.id.btnStartTimePicker)
+        btnEndTime = view.findViewById(R.id.btnEndTimePicker)
+        btnDate = view.findViewById(R.id.btnDatePicker)
+        txtDescription = view.findViewById(R.id.txtDescription)
+        imgEntryImage = view.findViewById(R.id.imgEntryImage)
+        btnUploadImg = view.findViewById(R.id.btnUploadImg)
+        btnCreate = view.findViewById(R.id.btnCreate)
+
         btnStartTime.setOnClickListener {
             showTimePickerDialog(btnStartTime)
         }
 
-        //Implement timepicker
-        btnEndTime = view.findViewById(R.id.btnEndTimePicker)
         btnEndTime.setOnClickListener {
             showTimePickerDialog(btnEndTime)
         }
 
-        //Implement datepicker
-        btnDate = view.findViewById(R.id.btnDatePicker)
         btnDate.setOnClickListener {
             showDatePickerDialog()
         }
-
-        //Implemente image upload
-        imgEntryImage = view.findViewById(R.id.imgEntryImage)
-        btnUploadImg = view.findViewById(R.id.btnUploadImg)
 
         btnUploadImg.setOnClickListener {
             checkPermissionsAndOpenImagePicker()
         }
 
+        btnCreate.setOnClickListener {
+            addEntry()
+        }
+
+        btnCategoryPicker = view.findViewById(R.id.btnCategoryPicker)
+        categoryNames = Global.categories.map { it.name } // Retrieve category names from Global.categories
+
+        btnCategoryPicker.setOnClickListener {
+            showCategoryPickerDialog()
+        }
+
+
         return view
+    }
+
+    private fun showCategoryPickerDialog() {
+        val categoryArray = categoryNames.toTypedArray()
+        val selectedCategoryIndex = categoryArray.indexOf(btnCategoryPicker.text.toString())
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Select Category")
+            .setSingleChoiceItems(categoryArray, selectedCategoryIndex) { dialog, which ->
+                btnCategoryPicker.text = categoryArray[which]
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+
+    private fun addEntry() {
+        val startTime = btnStartTime.text.toString()
+        val endTime = btnEndTime.text.toString()
+        val date = btnDate.text.toString()
+        val description = txtDescription.text.toString()
+        val categoryName = btnCategoryPicker.text.toString()
+
+        val imageData = convertImageToBase64(imgEntryImage).toString()
+
+        if (startTime.isNotEmpty() && endTime.isNotEmpty() && date.isNotEmpty() && description.isNotEmpty()) {
+            val entry = Entry(
+                Global.currentUser?.username.orEmpty(),
+                categoryName,
+                date,
+                startTime,
+                endTime,
+                imageData
+            )
+
+            Global.entries.add(entry)
+            Toast.makeText(requireContext(), "Entry added successfully!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun convertImageToBase64(imageView: ImageView): String? {
+        val drawable = imageView.drawable
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+            if (bitmap != null) {
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                val byteArray = byteArrayOutputStream.toByteArray()
+                return Base64.encodeToString(byteArray, Base64.DEFAULT)
+            }
+        }
+        return null
     }
 
     // Handle permission request result
