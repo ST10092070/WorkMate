@@ -1,12 +1,12 @@
 package com.opsc.workmate.ui
 
+import com.opsc.workmate.data.EntryAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,14 +29,24 @@ class DashboardFragment : Fragment() {
         //implement RecyclerView for Categories -------------
         // Find the RecyclerView by ID
         val lstCategories: RecyclerView = view.findViewById(R.id.lstCategories)
+        val lstEntries: RecyclerView = view.findViewById(R.id.lstEntries)
 
         // Set up the LinearLayoutManager for the RecyclerView
-        val layoutManager = LinearLayoutManager(requireContext())
-        lstCategories.layoutManager = layoutManager
+        val catLayoutManager = LinearLayoutManager(requireContext())
+        lstCategories.layoutManager = catLayoutManager
 
         // Create and set the CategoryAdapter with the Global.categories list
-        val adapter = CategoryAdapter(Global.categories)
-        lstCategories.adapter = adapter
+        val catAdapter = CategoryAdapter(Global.categories)
+        lstCategories.adapter = catAdapter
+
+        // Set up the LinearLayoutManager for the RecyclerView
+        val entryLayoutManager = LinearLayoutManager(requireContext())
+        lstEntries.layoutManager = entryLayoutManager
+
+        // Create and set the EntryAdapter with the Global.entries list
+        val adapter = EntryAdapter(Global.entries)
+        lstEntries.adapter = adapter
+
 
 
         //---- Navigate to Create Category screen ----

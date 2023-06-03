@@ -110,19 +110,18 @@ class NewEntryFragment : Fragment() {
             .show()
     }
 
-
     private fun addEntry() {
         val startTime = btnStartTime.text.toString()
         val endTime = btnEndTime.text.toString()
         val date = btnDate.text.toString()
         val description = txtDescription.text.toString()
         val categoryName = btnCategoryPicker.text.toString()
-
+        val currentUser = Global.currentUser?.username.orEmpty()
         val imageData = convertImageToBase64(imgEntryImage).toString()
 
-        if (startTime.isNotEmpty() && endTime.isNotEmpty() && date.isNotEmpty() && description.isNotEmpty()) {
+        if (startTime.isNotEmpty() && endTime.isNotEmpty() && date.isNotEmpty()) {
             val entry = Entry(
-                Global.currentUser?.username.orEmpty(),
+                currentUser,
                 categoryName,
                 date,
                 startTime,
