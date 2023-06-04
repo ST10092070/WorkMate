@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import com.opsc.workmate.MainActivity
 import com.opsc.workmate.R
@@ -59,6 +62,11 @@ class LoginFragment : Fragment() {
                 Toast.makeText(activity, "Invalid login credentials", Toast.LENGTH_SHORT).show()
             }
         }
+
+        val imgIcon : ImageView = view.findViewById(R.id.imgIcon)
+        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.workmate_logo)
+        imgIcon.setImageDrawable(drawable)
+
         return view
     }
 
