@@ -22,7 +22,7 @@ class CategoryAdapter(
         val categoryViewButton: Button = itemView.findViewById(R.id.btnViewCategory)
 
         init {
-            itemView.setOnClickListener {
+            categoryViewButton.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedCategory = categories[position]
