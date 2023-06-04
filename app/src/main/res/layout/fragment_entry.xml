@@ -107,20 +107,6 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/txtDescription"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_11sdp"
-            android:background="@color/lightGray"
-            android:textColorHint="@color/white"
-            android:hint="description..."
-            android:inputType="text"
-            android:textSize="@dimen/_16ssp"
-            android:textColor="@color/white"
-            android:text="" />
-
         <ImageView
             android:id="@+id/imgEntryImage"
             android:layout_width="@dimen/_150sdp"

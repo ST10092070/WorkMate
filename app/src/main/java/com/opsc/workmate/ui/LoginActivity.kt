@@ -21,6 +21,11 @@ class LoginActivity : AppCompatActivity() {
         val testUser = User("user", "1234", "test@example.com", "Test User")
         Global.users.add(testUser)
 
-        val category = Category("user", "Studies", 1, null)
+        var category = Category("user", "Studies", -9381821, null)
+        Global.categories.add(category)
+        category = Category("user", "Work", -9381421, null)
+        Global.categories.add(category)
+
+
     }
 }

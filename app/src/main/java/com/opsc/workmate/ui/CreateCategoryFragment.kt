@@ -85,7 +85,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
                 //Navigate to dashboard if successful
                 // Get the NavController
                 val navController = Navigation.findNavController(view)
-                // Navigate to the registerFragment
+                // Navigate to the relevant fragment
                 navController.navigate(R.id.action_createCategoryFragment_to_dashboardFragment)
             }
         }

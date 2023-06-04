@@ -17,8 +17,6 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:text="DASHBOARD"
             android:textColor="@color/lightBlue"
             android:textSize="@dimen/_35sdp"
@@ -52,16 +50,35 @@
             android:layout_marginBottom="@dimen/_2sdp"
             tools:listitem="@layout/list_category_item"/>
 
-        <Button
-            android:id="@+id/btnCreate"
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
-            android:text="new CATEGORY"
-            android:textSize="@dimen/_11ssp"
-            android:textColor="@color/black"
-            android:drawableEnd="@drawable/icon_library_add"
-            android:layout_marginBottom="@dimen/_2sdp" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lightBlue"
+                android:text="new CATEGORY"
+                android:textSize="@dimen/_11ssp"
+                android:textColor="@color/black"
+                android:drawableEnd="@drawable/icon_library_add"
+                android:layout_marginRight="@dimen/_5sdp"/>
+
+            <Button
+                android:id="@+id/btnEntry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green"
+                android:text="new entry"
+                android:textSize="@dimen/_11ssp"
+                android:textColor="@color/black"
+                android:drawableEnd="@drawable/icon_list" />
+
+        </LinearLayout>
 
 
         <View

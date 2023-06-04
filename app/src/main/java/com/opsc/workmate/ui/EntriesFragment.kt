@@ -8,7 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
+import com.opsc.workmate.data.EntryAdapter
+import com.opsc.workmate.data.Global
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -42,6 +46,16 @@ class EntriesFragment : Fragment() {
         btnEndDate.setOnClickListener {
             showDatePickerDialog(btnEndDate)
         }
+
+        //Populate List
+        val lstEntries: RecyclerView = view.findViewById(R.id.lstEntriesFilter)
+        // Set up the LinearLayoutManager for the RecyclerView
+        val entryLayoutManager = LinearLayoutManager(requireContext())
+        lstEntries.layoutManager = entryLayoutManager
+
+        // Create and set the EntryAdapter with the Global.entries list
+        val adapter = EntryAdapter(Global.entries)
+        lstEntries.adapter = adapter
 
         return view
     }

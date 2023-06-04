@@ -24,6 +24,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
@@ -83,7 +84,14 @@ class NewEntryFragment : Fragment() {
         }
 
         btnCreate.setOnClickListener {
-            addEntry()
+            var isCreated : Boolean = addEntry()
+            if (isCreated) {
+                //Navigate to dashboard if successful
+                // Get the NavController
+                val navController = Navigation.findNavController(view)
+                // Navigate to the relevant fragment
+                navController.navigate(R.id.action_newEntryFragment_to_dashboardFragment)
+            }
         }
 
         btnCategoryPicker = view.findViewById(R.id.btnCategoryPicker)
@@ -110,7 +118,7 @@ class NewEntryFragment : Fragment() {
             .show()
     }
 
-    private fun addEntry() {
+    private fun addEntry() : Boolean {
         val startTime = btnStartTime.text.toString()
         val endTime = btnEndTime.text.toString()
         val date = btnDate.text.toString()
@@ -119,7 +127,7 @@ class NewEntryFragment : Fragment() {
         val currentUser = Global.currentUser?.username.orEmpty()
         val imageData = convertImageToBase64(imgEntryImage).toString()
 
-        if (startTime.isNotEmpty() && endTime.isNotEmpty() && date.isNotEmpty()) {
+        if (startTime.isNotEmpty() && endTime.isNotEmpty() && date != "dd/mm/yyyy" && categoryName.lowercase() != "category") {
             val entry = Entry(
                 currentUser,
                 categoryName,
@@ -131,8 +139,10 @@ class NewEntryFragment : Fragment() {
 
             Global.entries.add(entry)
             Toast.makeText(requireContext(), "Entry added successfully!", Toast.LENGTH_SHORT).show()
+            return true
         } else {
             Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 

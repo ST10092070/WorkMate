@@ -16,12 +16,22 @@
         <action
             android:id="@+id/action_dashboardFragment_to_categoryDetailsFragment"
             app:destination="@id/categoryDetailsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_newEntryFragment"
+            app:destination="@id/newEntryFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
     </fragment>
     <fragment
         android:id="@+id/newEntryFragment"
         android:name="com.opsc.workmate.ui.NewEntryFragment"
         android:label="fragment_new_entry"
-        tools:layout="@layout/fragment_new_entry" />
+        tools:layout="@layout/fragment_new_entry" >
+        <action
+            android:id="@+id/action_newEntryFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reportsFragment"
         android:name="com.opsc.workmate.ui.ReportsFragment"
@@ -51,4 +61,8 @@
         android:name="com.opsc.workmate.ui.EntriesFragment"
         android:label="fragment_entries"
         tools:layout="@layout/fragment_entries" />
+    <fragment
+        android:id="@+id/entryFragment"
+        android:name="com.opsc.workmate.ui.EntryFragment"
+        android:label="EntryFragment" />
 </navigation>

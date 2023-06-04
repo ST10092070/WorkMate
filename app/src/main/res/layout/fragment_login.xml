@@ -36,7 +36,7 @@
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_140sdp"
             android:layout_height="@dimen/_140sdp"
-            tools:srcCompat="@tools:sample/avatars"
+            tools:srcCompat="@drawable/workmate_logo"
             android:layout_marginBottom="@dimen/_20sdp"/>
 
         <EditText

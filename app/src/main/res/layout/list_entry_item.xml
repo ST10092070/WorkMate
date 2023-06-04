@@ -24,7 +24,7 @@
                 android:id="@+id/txtEntryDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00 MMMM 0000"
+                android:text="DD/MM/YYYY"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:textColor="@color/white"/>
 
