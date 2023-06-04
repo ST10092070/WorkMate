@@ -28,6 +28,7 @@ import androidx.navigation.Navigation
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Global
+import com.opsc.workmate.data.Image
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.color.SimpleColorWheelDialog
 import java.io.ByteArrayOutputStream
@@ -75,7 +76,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         // Handle image upload button click
         btnUploadImg.setOnClickListener {
-            checkPermissionsAndOpenImagePicker()
+            Image.selectImage(this, imgCategoryImage)
         }
 
         //Implement create category button
@@ -100,8 +101,6 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         //Get data from page
         name = txtCategoryName.text.toString()
-
-
 
         imageData = convertImageToBase64(imgCategoryImage).toString()
 
@@ -135,53 +134,11 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         return null
     }
 
-    // Handle permission request result
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openImagePicker()
-            }
-        }
-    }
-
-    // Check and request necessary permissions for image upload
-    private fun checkPermissionsAndOpenImagePicker() {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                permission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(permission),
-                PERMISSION_REQUEST_CODE
-            )
-        } else {
-            openImagePicker()
-        }
-    }
-
-    // Open the image picker (gallery)
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_IMAGE_PICKER)
-    }
-
     // Handle the result of the image picker
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri: Uri? = data.data
-            imgCategoryImage.setImageURI(imageUri)
-        }
+        Image.handleImagePickerResult(requestCode, resultCode, data, imgCategoryImage)
     }
-
 
     private fun showColorPickerDialog() {
         SimpleColorWheelDialog.build()
