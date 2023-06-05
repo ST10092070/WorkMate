@@ -53,7 +53,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnAddEntry"
+            android:id="@+id/btnCategoryAddEntry"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="48dp"
             android:layout_marginTop="@dimen/_3sdp"

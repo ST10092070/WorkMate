@@ -16,7 +16,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import com.opsc.workmate.MainActivity
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Category
+import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
+import java.util.logging.Logger.global
 
 class LoginFragment : Fragment() {
 
@@ -71,7 +74,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateLogin(): Boolean {
-        //TODO: Implement validation for login
         val txtUsername: EditText = requireView().findViewById(R.id.txtUsername)
         val txtPassword: EditText = requireView().findViewById(R.id.txtPassword)
 
@@ -82,11 +84,30 @@ class LoginFragment : Fragment() {
         if (user != null) {
             //Success
             Global.currentUser = user
+            filterLists()
             return true
         } else {
             //Failure
             Toast.makeText(requireContext(), "Invalid username or password", Toast.LENGTH_SHORT).show()
             return false
         }
+    }
+
+    private fun filterLists() {
+        //Filter global lists according to logged in user, other user's data is not needed
+        //Other user's data gets repopulated each time app opens/LoginActivity
+        val entries = Global.entries
+        val filteredEntries: MutableList<Entry> = mutableListOf()
+        entries.forEach { entry ->
+            if (entry.username.equals(Global.currentUser!!.username, ignoreCase = true))
+                filteredEntries.add(entry) }
+        Global.entries = filteredEntries
+
+        val categories = Global.categories
+        val filteredCategories: MutableList<Category> = mutableListOf()
+        categories.forEach { category ->
+            if (category.username.equals(Global.currentUser!!.username, ignoreCase = true))
+                filteredCategories.add(category) }
+        Global.categories = filteredCategories
     }
 }

@@ -187,7 +187,7 @@ class NewEntryFragment : Fragment() {
                 calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth)
 
                 // Update button text with the selected date
-                val formattedDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(calendar.time)
+                val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
                 btnDate.text = formattedDate
             },
             year,

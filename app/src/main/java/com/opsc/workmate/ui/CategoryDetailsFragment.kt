@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
     lateinit var txtCategory: TextView
     lateinit var imgCategoryImage: ImageView
     lateinit var txtTotalHours: TextView
+    lateinit var btnAddEntry: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +88,15 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
             txtTotalHours = view.findViewById(R.id.txtTimeSpent)
             txtTotalHours.text = Category.getTotalHours(filteredEntries) + " hrs"
 
+        }
+
+        //Set onclick for add entry button
+        btnAddEntry = view.findViewById(R.id.btnCategoryAddEntry)
+        btnAddEntry.setOnClickListener {
+            // Get the NavController
+            val navController = Navigation.findNavController(view)
+            // Navigate to the CreateCategoryFragment
+            navController.navigate(R.id.action_categoryDetailsFragment_to_newEntryFragment)
         }
 
     }

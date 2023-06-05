@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Global.categories
 
 class CategoryAdapter(
     private val categories: List<Category>,
@@ -18,7 +19,7 @@ class CategoryAdapter(
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val categoryNameTextView: TextView = itemView.findViewById(R.id.txtCategoryName)
-        val categoryImageView: ImageView = itemView.findViewById(R.id.imgCategoryHasImage)
+        val categoryImageView: ImageView = itemView.findViewById(R.id.imgCategoryListHasImage)
         val categoryViewButton: Button = itemView.findViewById(R.id.btnViewCategory)
 
         init {
@@ -46,9 +47,7 @@ class CategoryAdapter(
         val currentCategory = categories[position]
         holder.categoryNameTextView.text = currentCategory.name
 
-        if (currentCategory.imageData != null || currentCategory.imageData != "null") {
-            holder.categoryImageView.visibility = View.VISIBLE
-        } else {
+        if (currentCategory.imageData == null || currentCategory.imageData == "null") {
             holder.categoryImageView.visibility = View.INVISIBLE
         }
 

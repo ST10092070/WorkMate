@@ -55,7 +55,11 @@
         android:id="@+id/categoryDetailsFragment"
         android:name="com.opsc.workmate.ui.CategoryDetailsFragment"
         android:label="fragment_category_details"
-        tools:layout="@layout/fragment_category_details" />
+        tools:layout="@layout/fragment_category_details" >
+        <action
+            android:id="@+id/action_categoryDetailsFragment_to_newEntryFragment"
+            app:destination="@id/newEntryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/entriesFragment"
         android:name="com.opsc.workmate.ui.EntriesFragment"

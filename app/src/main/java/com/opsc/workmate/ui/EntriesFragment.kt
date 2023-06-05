@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.EntryAdapter
 import com.opsc.workmate.data.Global
@@ -30,6 +32,7 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
     private lateinit var btnFilter: Button
     private lateinit var lstEntriesFilter: RecyclerView
     private lateinit var categoryNames: List<String>
+    private lateinit var txtTimeSpent: TextView
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -128,24 +131,25 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         }
         val btnEntriesCategoryPicker : Button = requireView().findViewById(R.id.btnEntriesCategoryPicker)
         val categoryName = btnEntriesCategoryPicker.text.toString()
-//        val filteredEntries = Global.entries.filter { entry ->
-//            val entryDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).parse(entry.date)
-//            entryDate != null && (entryDate.after(startDate) || entryDate.compareTo(startDate) == 0) &&
-//                    (entryDate.before(endDate) || entryDate.compareTo(endDate) == 0) &&
-//                    (categoryName.isBlank() || entry.categoryName.equals(categoryName, ignoreCase = true))
-//        }
 
         val entries = Global.entries
         val filteredEntries: MutableList<Entry> = mutableListOf()
-        entries.forEach { entry ->
 
+        //Filter entries and add to list
+        entries.forEach { entry ->
             val entryDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(entry.date)
             if ( entryDate.after(startDate) && entryDate.before(endDate) && entry.categoryName.equals(categoryName, ignoreCase = true))
                 filteredEntries.add(entry)
         }
 
-        //Set new data
+        //Calculate Time Spent
+        val timeSpent = Category.getTotalHours(filteredEntries)
+        txtTimeSpent = requireView().findViewById(R.id.txtTimeSpentFiltered)
+        txtTimeSpent.text = "$timeSpent hrs"
+
+        //Display entries
         var adapter = EntryAdapter(filteredEntries)
+        adapter.setOnItemClickListener(this)
         lstEntriesFilter.adapter = adapter
 
     }
