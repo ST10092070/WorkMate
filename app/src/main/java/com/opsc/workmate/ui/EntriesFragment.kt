@@ -164,6 +164,7 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         bundle.putString("startTime", entry.startTime)
         bundle.putString("endTime", entry.endTime)
         bundle.putString("imageData", entry.imageData)
+        bundle.putString("description", entry.description)
 
         val fragment = EntryFragment()
         fragment.arguments = bundle

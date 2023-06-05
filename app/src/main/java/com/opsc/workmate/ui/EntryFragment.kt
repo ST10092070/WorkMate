@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Image
+import org.w3c.dom.Text
 
 class EntryFragment : Fragment() {
 
@@ -16,6 +18,7 @@ class EntryFragment : Fragment() {
     lateinit var txtDate : TextView
     lateinit var txtTime : TextView
     lateinit var imgEntryImage : ImageView
+    lateinit var txtDescription : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +47,7 @@ class EntryFragment : Fragment() {
             val startTime = arguments.getString("startTime")
             val endTime = arguments.getString("endTime")
             val imageData = arguments.getString("imageData")
-
+            val description = arguments.getString("description")
             //Update UI elements---
 
             //Get UI elements
@@ -52,13 +55,14 @@ class EntryFragment : Fragment() {
             txtDate = view.findViewById(R.id.txtDate)
             txtTime = view.findViewById(R.id.txtTime)
             imgEntryImage = view.findViewById(R.id.imgEntryImage)
+            txtDescription = view.findViewById(R.id.txtEntryDetailsDescription)
 
             //Set Values
             txtCategory.text = category
             txtDate.text = date
             txtTime.text = startTime + " -> " + endTime
             Image.setBase64Image(imageData, imgEntryImage)
-
+            txtDescription.text = description
 
         }
     }

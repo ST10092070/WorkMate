@@ -9,5 +9,6 @@ class Entry(
     val date: String,
     val startTime: String,
     val endTime: String,
-    val imageData: String?
+    val imageData: String?,
+    val description: String
 )

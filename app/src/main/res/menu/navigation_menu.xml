@@ -33,9 +33,4 @@
         android:icon="@drawable/menu_report"
         android:title="Reports" />
 
-    <item
-        android:id="@+id/categoryDetailsFragment"
-        android:icon="@drawable/menu_category_info"
-        android:title="category Details" />
-
 </menu>

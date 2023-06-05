@@ -106,6 +106,15 @@
                 android:gravity="center"/>
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/txtEntryDetailsDescription"
+            android:layout_width="250dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="14dp"
+            android:background="@color/white"
+            android:hint="description..."
+            android:inputType="none"
+            android:text="" />
 
         <ImageView
             android:id="@+id/imgEntryImage"

@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         category = Category("user", "Hobbies", -5874169, "null")
         Global.categories.add(category)
 
-        var entry = Entry("user", "Studies", "12/06/2023", "12:10 AM", "12:20 AM", "null")
+        var entry = Entry("user", "Studies", "12/06/2023", "12:10 AM", "12:20 AM", "null", "example")
         Global.entries.add(entry)
 
 
@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             calendar.add(Calendar.HOUR_OF_DAY, hourDifference)
             val endTime = timeFormat.format(calendar.time)
 
-            entry = Entry("user", categoryName, date, startTime, endTime, "null")
+            entry = Entry("user", categoryName, date, startTime, endTime, "null", "Description example")
             Global.entries.add(entry)
         }
     }

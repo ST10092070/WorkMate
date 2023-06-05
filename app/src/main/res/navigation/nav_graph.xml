@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_categoryDetailsFragment_to_newEntryFragment"
             app:destination="@id/newEntryFragment" />
+        <action
+            android:id="@+id/action_categoryDetailsFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
     </fragment>
     <fragment
         android:id="@+id/entriesFragment"

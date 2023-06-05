@@ -135,7 +135,8 @@ class NewEntryFragment : Fragment() {
                 date,
                 startTime,
                 endTime,
-                imageData
+                imageData,
+                description
             )
 
             Global.entries.add(entry)
