@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EntriesFragment"
+        tools:context=".ui.EntriesFragment"
     android:background="@color/background">
 
     <LinearLayout
@@ -87,15 +87,31 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnFilter"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
-            android:drawableEnd="@drawable/icon_filter_list"
-            android:text="Filter"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_9ssp"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnEntriesCategoryPicker"
+                style="?android:dropDownSpinnerStyle"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="wrap_content"
+                android:text="category"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lightBlue"
+                android:drawableEnd="@drawable/icon_filter_list"
+                android:text="Filter"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9ssp"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="@dimen/_280sdp"

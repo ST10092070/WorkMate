@@ -11,12 +11,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
 
-class EntryAdapter(private val entries: List<Entry>) :
+class EntryAdapter(private var entries: List<Entry>) :
     RecyclerView.Adapter<EntryAdapter.EntryViewHolder>() {
 
     // Interface for click events
     interface OnItemClickListener {
         fun onItemClick(entry: Entry)
+    }
+
+    fun setEntries(entries: List<Entry>) {
+        this.entries = entries
     }
 
     private var onItemClickListener: OnItemClickListener? = null

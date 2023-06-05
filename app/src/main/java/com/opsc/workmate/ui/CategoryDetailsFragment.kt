@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
+import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.CategoryAdapter
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.EntryAdapter
@@ -21,6 +22,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
 
     lateinit var txtCategory: TextView
     lateinit var imgCategoryImage: ImageView
+    lateinit var txtTotalHours: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +80,10 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
 
             // Set the adapter to the RecyclerView
             lstEntries.adapter = adapter
+
+            //Get and set the total hours---
+            txtTotalHours = view.findViewById(R.id.txtTimeSpent)
+            txtTotalHours.text = Category.getTotalHours(filteredEntries) + " hrs"
 
         }
 
