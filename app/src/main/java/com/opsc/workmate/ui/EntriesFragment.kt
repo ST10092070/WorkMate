@@ -119,8 +119,8 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
             return
         }
 
-        val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(startDateText)
-        val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(endDateText)
+        val startDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).parse(startDateText)
+        val endDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).parse(endDateText)
 
         if (startDate != null && endDate != null && startDate.after(endDate)) {
             Toast.makeText(requireContext(), "End date cannot be before start date", Toast.LENGTH_SHORT).show()
@@ -128,11 +128,20 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         }
         val btnEntriesCategoryPicker : Button = requireView().findViewById(R.id.btnEntriesCategoryPicker)
         val categoryName = btnEntriesCategoryPicker.text.toString()
-        val filteredEntries = Global.entries.filter { entry ->
+//        val filteredEntries = Global.entries.filter { entry ->
+//            val entryDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).parse(entry.date)
+//            entryDate != null && (entryDate.after(startDate) || entryDate.compareTo(startDate) == 0) &&
+//                    (entryDate.before(endDate) || entryDate.compareTo(endDate) == 0) &&
+//                    (categoryName.isBlank() || entry.categoryName.equals(categoryName, ignoreCase = true))
+//        }
+
+        val entries = Global.entries
+        val filteredEntries: MutableList<Entry> = mutableListOf()
+        entries.forEach { entry ->
+
             val entryDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(entry.date)
-            entryDate != null && (entryDate.after(startDate) || entryDate.compareTo(startDate) == 0) &&
-                    (entryDate.before(endDate) || entryDate.compareTo(endDate) == 0) &&
-                    (categoryName.isBlank() || entry.categoryName.equals(categoryName, ignoreCase = true))
+            if ( entryDate.after(startDate) && entryDate.before(endDate) && entry.categoryName.equals(categoryName, ignoreCase = true))
+                filteredEntries.add(entry)
         }
 
         //Set new data

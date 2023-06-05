@@ -35,10 +35,9 @@ class LoginActivity : AppCompatActivity() {
         category = Category("user", "Hobbies", -5874169, "null")
         Global.categories.add(category)
 
-        var entry = Entry("user", "Studies", "12/12/2023", "12:10 AM", "12:20 AM", "null")
+        var entry = Entry("user", "Studies", "12/06/2023", "12:10 AM", "12:20 AM", "null")
         Global.entries.add(entry)
-        entry = Entry("user", "Work", "12/12/2023", "12:10 AM", "12:20 AM", "null")
-        Global.entries.add(entry)
+
 
         val random = Random()
 
