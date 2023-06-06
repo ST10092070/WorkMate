@@ -72,4 +72,22 @@
         android:id="@+id/entryFragment"
         android:name="com.opsc.workmate.ui.EntryFragment"
         android:label="EntryFragment" />
+    <fragment
+        android:id="@+id/setGoalsFragment"
+        android:name="com.opsc.workmate.ui.SetGoalsFragment"
+        android:label="fragment_set_goals"
+        tools:layout="@layout/fragment_set_goals" >
+        <action
+            android:id="@+id/action_setGoalsFragment_to_goalsFragment"
+            app:destination="@id/goalsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goalsFragment"
+        android:name="com.opsc.workmate.ui.GoalsFragment"
+        android:label="fragment_goals"
+        tools:layout="@layout/fragment_goals" >
+        <action
+            android:id="@+id/action_goalsFragment_to_setGoalsFragment"
+            app:destination="@id/setGoalsFragment" />
+    </fragment>
 </navigation>

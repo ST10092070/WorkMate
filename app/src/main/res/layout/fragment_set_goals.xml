@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SetGoalsFragment"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="top|center">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Daily Goals"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_28ssp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/_280sdp"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minimum Time"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtMinTime"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:background="@color/white"
+            android:hint="--:--"
+            android:inputType="datetime"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:textAlignment="center"
+            />
+
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maximum Time"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtMaxTime"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:background="@color/white"
+            android:hint="--:--"
+            android:inputType="datetime"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:textAlignment="center"
+            />
+
+        <Button
+            android:id="@+id/btnConfirmGoals"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:text="Set goals"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

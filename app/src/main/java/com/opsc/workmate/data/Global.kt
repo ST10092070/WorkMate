@@ -5,6 +5,7 @@ object Global {
     var users: MutableList<User> = mutableListOf()
     var categories: MutableList<Category> = mutableListOf()
     var entries: MutableList<Entry> = mutableListOf()
+    var goals: MutableList<Goal> = mutableListOf()
 
     var currentUser: User? = null
 }

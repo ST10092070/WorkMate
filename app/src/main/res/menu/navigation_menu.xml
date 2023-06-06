@@ -24,6 +24,11 @@
         android:title="Entries" />
 
     <item
+        android:id="@+id/goalsFragment"
+        android:icon="@drawable/menu_dashboard"
+        android:title="Goals" />
+
+    <item
         android:id="@+id/graphsFragment"
         android:icon="@drawable/menu_graphs"
         android:title="graphs" />

@@ -82,6 +82,12 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                     true
                 }
+                R.id.goalsFragment -> {
+                    // Handle the Add Entry menu item click
+                    navController.navigate(R.id.goalsFragment)
+                    drawerLayout.closeDrawers()
+                    true
+                }
 
                 else -> false
             }
