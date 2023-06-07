@@ -26,6 +26,42 @@
             android:layout_height="@dimen/_2sdp"
             android:background="@color/gray" />
 
+        <TextView
+            android:id="@+id/txtMax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MAX : 00:00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"/>
+
+        <ProgressBar
+            android:id="@+id/bar_minToMax"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_scale_drawable" />
+
+        <TextView
+            android:id="@+id/txtMin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MIN : 00:00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"/>
+
+        <ProgressBar
+            android:id="@+id/bar_zeroToMin"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_scale_drawable" />
+
         <Button
             android:id="@+id/btnSetGoals"
             android:layout_width="wrap_content"

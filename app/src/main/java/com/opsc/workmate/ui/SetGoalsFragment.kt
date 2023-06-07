@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Goal
@@ -47,6 +49,8 @@ class SetGoalsFragment : Fragment() {
 
             if (success) {
                 //Navigate and confirmation
+                Toast.makeText(activity, "Goals set!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_setGoalsFragment_to_goalsFragment)
             }
 
 
@@ -72,7 +76,7 @@ class SetGoalsFragment : Fragment() {
 
     }
 
-    fun convertTimeStringToTime(timeString: String): LocalTime? {
+    private fun convertTimeStringToTime(timeString: String): LocalTime? {
         val format = DateTimeFormatter.ofPattern("HH:mm")
         return try {
             LocalTime.parse(timeString, format)
