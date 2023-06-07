@@ -24,12 +24,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.navigation.Navigation
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Image
+import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.Calendar
 import java.util.Locale
 
@@ -50,7 +53,7 @@ class NewEntryFragment : Fragment() {
     private val calendar: Calendar = Calendar.getInstance()
 
     companion object {
-        private const val REQUEST_IMAGE_PICKER = 100 // Constant for image picker request code
+        private const val REQUEST_IMAGE_PICKER = 1 // Constant for image picker request code
         private const val PERMISSION_REQUEST_CODE = 101 // Constant for permission request code
     }
 
@@ -81,7 +84,11 @@ class NewEntryFragment : Fragment() {
         }
 
         btnUploadImg.setOnClickListener {
-            Image.selectImage(this, imgEntryImage)
+            ImagePicker.with(this)
+                .crop()                     //crop image(optional), check customization for more options
+                .compress(1024)             //final image size will be less than 1 MB
+                .maxResultSize(1080,1080)   //final image resolution will be less than 1080 x 1080
+                .start()
         }
 
         btnCreate.setOnClickListener {
@@ -119,6 +126,7 @@ class NewEntryFragment : Fragment() {
             .show()
     }
 
+
     private fun addEntry() : Boolean {
         val startTime = btnStartTime.text.toString()
         val endTime = btnEndTime.text.toString()
@@ -151,7 +159,17 @@ class NewEntryFragment : Fragment() {
     // Handle the result of the image picker
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Image.handleImagePickerResult(requestCode, resultCode, data, imgEntryImage)
+        if (resultCode == Activity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
+            val uri: Uri = data?.data!!
+
+            // Use Uri object instead of File to avoid storage permissions
+            imgEntryImage.setImageURI(uri)
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+        }
     }
     private fun showTimePickerDialog(button: Button) {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
