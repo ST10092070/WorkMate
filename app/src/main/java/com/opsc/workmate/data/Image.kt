@@ -74,6 +74,12 @@ object Image {
         }
     }
 
+    //Code Attribution
+    //The below code was derived from TutorialsPoint
+    //https://www.tutorialspoint.com/how-to-convert-an-image-into-base64-string-in-android-using-kotlin
+    //Azhar
+    //https://www.tutorialspoint.com/authors/azhar
+
     fun convertImageToBase64(imageView: ImageView): String? {
         val drawable = imageView.drawable
         if (drawable is BitmapDrawable) {

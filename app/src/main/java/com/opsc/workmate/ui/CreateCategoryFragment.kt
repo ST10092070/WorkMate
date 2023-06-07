@@ -156,6 +156,13 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     }
 
     private fun showColorPickerDialog() {
+
+        //Code Attribution
+        //The below code has been derived from GitHub
+        //https://github.com/eltos/SimpleDialogFragments/wiki/SimpleColorWheelDialog
+        //Eltos
+        //https://github.com/eltos
+
         SimpleColorWheelDialog.build()
             .color(0x80e9a11d.toInt())
             .alpha(false)

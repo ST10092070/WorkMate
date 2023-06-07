@@ -87,6 +87,13 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
     }
 
     private fun showDatePickerDialog(button: Button) {
+
+        //Code Attribution
+        //The below code was derived from StackOverflow
+        //https://stackoverflow.com/questions/45842167/how-to-use-datepickerdialog-in-kotlin
+        //Alexandr Kovalenko
+        //https://stackoverflow.com/users/7697901/alexandr-kovalenko
+
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)

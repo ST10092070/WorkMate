@@ -96,6 +96,13 @@ class LoginFragment : Fragment() {
     private fun filterLists() {
         //Filter global lists according to logged in user, other user's data is not needed
         //Other user's data gets repopulated each time app opens/LoginActivity
+
+        //Code Attribution
+        //The below code was derived from StackOverflow
+        //https://stackoverflow.com/questions/70252668/filter-a-list-of-object
+        //Erjon
+        //https://stackoverflow.com/users/6310948/erjon
+
         val entries = Global.entries
         val filteredEntries: MutableList<Entry> = mutableListOf()
         entries.forEach { entry ->

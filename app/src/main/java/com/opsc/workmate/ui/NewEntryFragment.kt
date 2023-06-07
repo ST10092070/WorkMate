@@ -114,6 +114,13 @@ class NewEntryFragment : Fragment() {
     }
 
     private fun showCategoryPickerDialog() {
+
+        //Code Attribution
+        //The below code was derived from StackOverflow
+        //https://stackoverflow.com/questions/2115758/how-do-i-display-an-alert-dialog-on-android
+        //David Hedlund
+        //https://stackoverflow.com/users/133802/david-hedlund
+
         val categoryArray = categoryNames.toTypedArray()
         val selectedCategoryIndex = categoryArray.indexOf(btnCategoryPicker.text.toString())
 
@@ -172,6 +179,13 @@ class NewEntryFragment : Fragment() {
         }
     }
     private fun showTimePickerDialog(button: Button) {
+
+        //Code Attribution
+        //The below code was derived from StackOverflow
+        //https://stackoverflow.com/questions/47498014/android-kotlin-dialogfragment-timepicker
+        //flokol120
+        //https://stackoverflow.com/users/7276394/flokol120
+
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
