@@ -31,6 +31,7 @@ import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Image
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.color.SimpleColorWheelDialog
+import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.ByteArrayOutputStream
 
 
@@ -76,7 +77,11 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         // Handle image upload button click
         btnUploadImg.setOnClickListener {
-            Image.selectImage(this, imgCategoryImage)
+            ImagePicker.with(this)
+                .crop()                     //crop image(optional), check customization for more options
+                .compress(1024)             //final image size will be less than 1 MB
+                .maxResultSize(1080,1080)   //final image resolution will be less than 1080 x 1080
+                .start()
         }
 
         //Implement create category button
@@ -137,7 +142,17 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     // Handle the result of the image picker
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Image.handleImagePickerResult(requestCode, resultCode, data, imgCategoryImage)
+        if (resultCode == Activity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
+            val uri: Uri = data?.data!!
+
+            // Use Uri object instead of File to avoid storage permissions
+            imgCategoryImage.setImageURI(uri)
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showColorPickerDialog() {
