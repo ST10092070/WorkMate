@@ -66,29 +66,16 @@
                 android:id="@+id/imgHasImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_img"
-                android:layout_marginLeft="@dimen/_5sdp"/>
+                android:src="@drawable/icon_img"/>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtCatName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center|right">
+                android:text="Category"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/white"/>
 
-                <View
-                    android:layout_width="@dimen/_1sdp"
-                    android:layout_height="@dimen/_14sdp"
-                    android:background="@color/black"
-                    android:layout_marginLeft="@dimen/_5sdp"/>
-
-                <ImageView
-                    android:id="@+id/imgDeleteEntry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_delete"
-                    android:layout_marginRight="@dimen/_10sdp"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

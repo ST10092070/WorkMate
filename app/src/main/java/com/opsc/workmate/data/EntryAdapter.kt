@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
+import org.w3c.dom.Text
 
 class EntryAdapter(private var entries: List<Entry>) :
     RecyclerView.Adapter<EntryAdapter.EntryViewHolder>() {
@@ -50,6 +51,7 @@ class EntryAdapter(private var entries: List<Entry>) :
         private val txtStartEndTime: TextView = itemView.findViewById(R.id.txtStartEndTime)
         private val txtDuration: TextView = itemView.findViewById(R.id.txtDuration)
         private val imgHasImage: ImageView = itemView.findViewById(R.id.imgHasImage)
+        private val txtCatName: TextView = itemView.findViewById(R.id.txtCatName)
 
         fun bind(entry: Entry) {
             txtEntryDate.text = entry.date
@@ -63,6 +65,10 @@ class EntryAdapter(private var entries: List<Entry>) :
             } else {
                 imgHasImage.visibility = View.INVISIBLE
             }
+
+            //Set category name
+            txtCatName.text = entry.categoryName
+
         }
 
         private fun calculateDuration(startTime: String, endTime: String): String {
