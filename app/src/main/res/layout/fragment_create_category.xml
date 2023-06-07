@@ -36,7 +36,7 @@
             android:layout_width="@dimen/_210sdp"
             android:layout_height="@dimen/_42sdp"
             android:background="@color/white"
-            android:hint="Project name..."
+            android:hint="Category name..."
             android:inputType="text"
             android:layout_marginBottom="@dimen/_11sdp"
             android:text="" />

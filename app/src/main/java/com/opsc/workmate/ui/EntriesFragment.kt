@@ -170,7 +170,7 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         fragment.arguments = bundle
 
         //Navigate to fragment, passing bundle
-        findNavController().navigate(R.id.action_dashboardFragment_to_entryFragment, bundle)
+        findNavController().navigate(R.id.action_entriesFragment_to_entryFragment, bundle)
     }
 
 }
