@@ -1,6 +1,7 @@
 package com.opsc.workmate.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -31,6 +32,7 @@ import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Image
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.Calendar
@@ -44,7 +46,7 @@ class NewEntryFragment : Fragment() {
     private lateinit var btnDate: Button
     private lateinit var txtDescription: EditText
     private lateinit var imgEntryImage: ImageView
-    private lateinit var btnUploadImg: Button
+    private lateinit var btnUploadImg: FloatingActionButton
     private lateinit var btnCreate: Button
     private lateinit var btnCategoryPicker: Button
     private lateinit var categoryNames: List<String>
@@ -68,7 +70,7 @@ class NewEntryFragment : Fragment() {
         btnDate = view.findViewById(R.id.btnDatePicker)
         txtDescription = view.findViewById(R.id.txtDescription)
         imgEntryImage = view.findViewById(R.id.imgEntryImage)
-        btnUploadImg = view.findViewById(R.id.btnUploadImg)
+        btnUploadImg = view.findViewById(R.id.btnUploadEntryImg)
         btnCreate = view.findViewById(R.id.btnCreate)
 
         btnStartTime.setOnClickListener {
@@ -162,7 +164,6 @@ class NewEntryFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             //Image Uri will not be null for RESULT_OK
             val uri: Uri = data?.data!!
-
             // Use Uri object instead of File to avoid storage permissions
             imgEntryImage.setImageURI(uri)
         } else if (resultCode == ImagePicker.RESULT_ERROR) {

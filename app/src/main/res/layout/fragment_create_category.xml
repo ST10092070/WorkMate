@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create New Category"
-            android:textColor="@color/white"
+            android:textColor="@color/lightGreen"
             android:textSize="@dimen/_28sdp"
             android:textStyle="bold"
             android:layout_marginBottom="@dimen/_25sdp"
@@ -41,40 +41,77 @@
             android:layout_marginBottom="@dimen/_11sdp"
             android:text="" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_gravity="center"
+            android:text="Selected color:"
+            android:textFontWeight="200"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/txtColorSelected"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="140dp"
+            android:layout_height="15sp" />
+
         <Button
             android:id="@+id/btnChooseColour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightRed"
+            android:backgroundTint="@color/lightGreen"
             android:text="Choose Colour"
             android:textSize="@dimen/_9ssp"
             android:textColor="@color/black"
             android:layout_marginBottom="@dimen/_11sdp"/>
 
-        <ImageView
-            android:id="@+id/imgCategoryImage"
-            android:layout_width="@dimen/_140sdp"
-            android:layout_height="@dimen/_140sdp"
-            android:background="@android:drawable/ic_menu_gallery"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="@dimen/_11sdp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center">
 
-        <Button
-            android:id="@+id/btnUploadImgCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginBottom="@dimen/_11sdp"
-            android:backgroundTint="@color/lightGreen"
-            android:drawableEnd="@drawable/icon_img"
-            android:text="Upload Image"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_9ssp" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgCategoryImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@android:drawable/ic_menu_gallery"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circular"
+                app:strokeColor="@color/lightGreen"
+                app:strokeWidth="5dp"
+                tools:visibility="visible" />
+
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnUploadCategoryImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:clickable="true"
+                android:src="@android:drawable/ic_menu_camera"
+                android:backgroundTint="@color/lightGreen"
+                app:rippleColor="@color/lightGreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/btnCreateCategory"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
+            android:backgroundTint="@color/lightGreen"
             android:text="create category"
             android:textSize="@dimen/_13ssp"
             android:textColor="@color/black"
