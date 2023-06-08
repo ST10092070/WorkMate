@@ -1,6 +1,7 @@
 package com.opsc.workmate.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,6 +20,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
@@ -32,6 +34,8 @@ import com.opsc.workmate.data.Image
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.color.SimpleColorWheelDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.opsc.workmate.R.*
 import java.io.ByteArrayOutputStream
 
 
@@ -41,8 +45,9 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     private lateinit var btnChooseColour: Button
     private lateinit var btnCreate: Button
     private lateinit var imgCategoryImage: ImageView
-    private lateinit var btnUploadImg: Button
+    private lateinit var btnUploadImg: FloatingActionButton
     private lateinit var txtCategoryName: EditText
+    private lateinit var txtSelectedColor: TextView
     @ColorInt var colour = 0
 
 
@@ -61,14 +66,15 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_create_category, container, false)
+        val view = inflater.inflate(layout.fragment_create_category, container, false)
 
         //Initialise variables
         btnChooseColour = view.findViewById(R.id.btnChooseColour)
         btnCreate = view.findViewById(R.id.btnCreateCategory)
         imgCategoryImage = view.findViewById(R.id.imgCategoryImage)
-        btnUploadImg = view.findViewById(R.id.btnUploadImgCategory)
+        btnUploadImg = view.findViewById(R.id.btnUploadCategoryImg)
         txtCategoryName = view.findViewById(R.id.txtCategoryName)
+        txtSelectedColor = view.findViewById(R.id.txtColorSelected)
 
         //Implement colour picker
         btnChooseColour.setOnClickListener {
@@ -145,7 +151,6 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         if (resultCode == Activity.RESULT_OK) {
             //Image Uri will not be null for RESULT_OK
             val uri: Uri = data?.data!!
-
             // Use Uri object instead of File to avoid storage permissions
             imgCategoryImage.setImageURI(uri)
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -177,7 +182,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
             if (which == -1 && color != null) {
                 // Handle the selected color
                 selectedColor = color
-                btnChooseColour.setBackgroundColor(selectedColor)
+                txtSelectedColor.setBackgroundColor(selectedColor)
                 colour = extras.getInt(SimpleColorWheelDialog.COLOR)
                 return true // Dialog result was handled
             }
