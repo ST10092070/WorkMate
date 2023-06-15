@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175588528418",
+    "project_id": "workmate-55fdc",
+    "storage_bucket": "workmate-55fdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175588528418:android:799dbb9df1d8a09e5d157b",
+        "android_client_info": {
+          "package_name": "com.opsc.workmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175588528418-3j9tll44a86m50mgq47lk34srs0msoq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ-8OrhtJeXshS4l3HVTqeKCUsm8kE29U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175588528418-3j9tll44a86m50mgq47lk34srs0msoq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
