@@ -1,6 +1,8 @@
 package com.opsc.workmate.ui
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +12,24 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.User
 
 class RegisterFragment : Fragment() {
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = Firebase.auth
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,7 +114,29 @@ class RegisterFragment : Fragment() {
         val newUser = User(username, password, email, fullName)
 
         // Add the user to the Global.users list
-        Global.users.add(newUser)
+        if(newUser!=null){
+            Global.users.add(newUser)
+            val user = Global.users.find { it.email == email && it.password == password }
+            //sign up to firebase using the entered email and password
+            if(user!=null){
+                this.auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task: Task<AuthResult> ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(ContentValues.TAG, "createUserWithEmail:success")
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
+                            //updateUI(null)
+                            Toast.makeText(
+                                context,
+                                task.exception?.message,
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+            }
+        }
 
         return true
     }
