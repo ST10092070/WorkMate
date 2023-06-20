@@ -110,8 +110,6 @@ class NewEntryFragment : Fragment() {
         btnCategoryPicker.setOnClickListener {
             showCategoryPickerDialog()
         }
-
-
         return view
     }
 

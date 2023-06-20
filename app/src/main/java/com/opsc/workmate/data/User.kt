@@ -4,6 +4,7 @@ class User(
     var username: String,
     var password: String,
     var email: String,
-    var name: String
+    var name: String,
+    var workcoins: Int?
     ) {
 }

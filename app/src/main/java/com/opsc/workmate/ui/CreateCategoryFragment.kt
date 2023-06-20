@@ -121,7 +121,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         }
 
         val category = Category(
-            Global.currentUser?.username ?: "",
+            Global.currentUser?.username.toString(),
             name,
             colour,
             imageData

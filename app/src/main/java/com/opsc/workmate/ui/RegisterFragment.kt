@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Global
@@ -23,13 +25,17 @@ import com.opsc.workmate.data.User
 
 class RegisterFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
+    //firebase database & database reference reference's
+    private var firebaseReference : FirebaseDatabase? = null
+    private var UserDatabaseReference : DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
+        //create a reference to the user object in firebase
+        UserDatabaseReference = FirebaseDatabase.getInstance().getReference("User")
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +91,7 @@ class RegisterFragment : Fragment() {
         val confirmPassword = txtConfirmPassword.text.toString()
         val fullName = txtFullName.text.toString()
         val email = txtEmail.text.toString()
+        val free_coins = 10
 
         // Perform input validation
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || fullName.isEmpty() || email.isEmpty()) {
@@ -111,10 +118,13 @@ class RegisterFragment : Fragment() {
         }
 
         // Create a new User object
-        val newUser = User(username, password, email, fullName)
+        val newUser = User(username, password, email, fullName, free_coins)
 
         // Add the user to the Global.users list
         if(newUser!=null){
+            //adding the user object into the firebase real-time database
+            UserDatabaseReference!!.child(username).setValue(newUser)
+            //adding object to local database
             Global.users.add(newUser)
             val user = Global.users.find { it.email == email && it.password == password }
             //sign up to firebase using the entered email and password
