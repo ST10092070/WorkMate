@@ -19,6 +19,11 @@ import androidx.navigation.Navigation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.opsc.workmate.MainActivity
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
@@ -94,48 +99,78 @@ class LoginFragment : Fragment() {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return false
         }
+        //get the user reference in firebase
+        val reference = FirebaseDatabase.getInstance().getReference("User")
+        //check if there is any user with the entered user name
 
-        val user = Global.users.find { it.username == username && it.password == password }
-        if (user != null) {
-            //Success
-            Global.currentUser = user
-            filterLists()
+        val checkUser: Query = reference.orderByChild("name")
+            .equalTo(username)
 
-            val user1 = Global.users.find { it.username == user.username && it.password == user.password }
+        checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    val fb_name = snapshot.child(username).child("name").getValue(String::class.java)
+                    val fb_email = snapshot.child(username).child("email").getValue(String::class.java)
+                    val fb_password = snapshot.child(username).child("password").getValue(String::class.java)
 
-            if(user1!=null){
-                //sign in to firebase using the entered email and password
-                this.auth.signInWithEmailAndPassword(user1.email, user1.password)
-                    .addOnCompleteListener { task: Task<AuthResult> ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(ContentValues.TAG, "signInWithEmail:success")
-                            val current_user = auth.currentUser
-                            //updateUI(user)
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                context,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                            Toast.makeText(
-                                context,
-                                task.exception?.message,
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                            //updateUI(null)
+                    //check if the user doesn't exists
+                    if(!username.equals(fb_name) || !password.equals(fb_password)){
+                        Toast.makeText(
+                            context,
+                            "user doesn't exist!",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }else{
+                        if (fb_email != null) {
+                            //try to sign the user in
+                            try{
+                                this@LoginFragment.auth.signInWithEmailAndPassword(fb_email, fb_password)
+                                    .addOnCompleteListener { task: Task<AuthResult> ->
+                                        if (task.isSuccessful) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d(ContentValues.TAG, "signInWithEmail:success")
+                                            //val current_user = auth.currentUser
+                                            //updateUI(user)
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
+                                            Toast.makeText(
+                                                context,
+                                                "Authentication failed.",
+                                                Toast.LENGTH_SHORT,
+                                            ).show()
+                                            Toast.makeText(
+                                                context,
+                                                task.exception?.message,
+                                                Toast.LENGTH_SHORT,
+                                            ).show()
+                                            //updateUI(null)
+                                        }
+                                    }
+                            }catch (ex: Exception){
+                                Toast.makeText(
+                                    context,
+                                    ex.message,
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
                         }
-
+                        Toast.makeText(
+                            context,
+                            "user exists...",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
+                }
             }
-        } else {
-            //Failure
-            Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    context,
+                    "Cancelled",
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+        })
         return true
     }
 
