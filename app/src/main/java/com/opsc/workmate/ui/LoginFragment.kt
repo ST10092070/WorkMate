@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
@@ -34,12 +35,16 @@ import java.util.logging.Logger.global
 
 class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
+    private var userDatabaseReference: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
+
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("User")
+
     }
 
     override fun onCreateView(
@@ -104,20 +109,42 @@ class LoginFragment : Fragment() {
                     // Login successful
                     Log.d("LoginActivity", "Login successful")
 
-                    //TODO: set current user info after login. Maybe just use firebase currentUser for all.
+                    val firebaseUser = auth.currentUser
+                    val uid = firebaseUser?.uid
 
-                    //Navigate
-                    val intent = Intent(activity, MainActivity::class.java)
-                    startActivity(intent)
+                    if (uid != null) {
+                        userDatabaseReference?.child(uid)?.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                val userSnapshot = dataSnapshot.getValue(User::class.java)
+                                if (userSnapshot != null) {
+                                    Global.currentUser = userSnapshot
 
+                                    //Navigate
+                                    val intent = Intent(activity, MainActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    // User data not found in the database
+                                    Log.d("LoginActivity", "User data not found in the database")
+                                    Toast.makeText(context, "User data not found in the database", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                // Error occurred while accessing user data in the database
+                                Log.d("LoginActivity", "Error accessing user data in the database: ${databaseError.message}")
+                                Toast.makeText(context, "Error accessing user data in the database", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
                 } else {
                     // Login failed
                     Log.d("LoginActivity", "Login failed: ${task.exception?.message}")
 
-                    //Show message
+                    // Show message
                     Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
+
     }
 
 
