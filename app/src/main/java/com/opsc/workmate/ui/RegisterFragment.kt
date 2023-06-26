@@ -122,34 +122,29 @@ class RegisterFragment : Fragment() {
 
         // Add the user to the Global.users list
         if(newUser!=null){
-            //adding the user object into the firebase real-time database
-            UserDatabaseReference!!.child(username).setValue(newUser)
-            //adding object to local database
-            Global.users.add(newUser) //Adds to Local user records
-            val user = Global.users.find { it.email == email && it.password == password } //Searches local user records
+            // Add the user to the Firebase Realtime Database
+            UserDatabaseReference?.child(username)?.setValue(newUser)
 
-            //sign up to firebase using the entered email and password
-            if(user!=null){
-                this.auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task: Task<AuthResult> ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(ContentValues.TAG, "createUserWithEmail:success")
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
-                            //updateUI(null)
 
-                            //Exit with false becuase failure, need to also remove from local records
+            this.auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task: Task<AuthResult> ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(ContentValues.TAG, "createUserWithEmail:success")
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
+                        //updateUI(null)
 
-                            Toast.makeText(
-                                context,
-                                task.exception?.message,
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                        }
+                        //Exit with false becuase failure, need to also remove from local records
+
+                        Toast.makeText(
+                            context,
+                            task.exception?.message,
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
-            }
+                }
         }
 
         return true

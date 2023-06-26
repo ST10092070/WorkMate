@@ -29,6 +29,7 @@ import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
+import com.opsc.workmate.data.User
 import java.util.logging.Logger.global
 
 class LoginFragment : Fragment() {
@@ -68,16 +69,14 @@ class LoginFragment : Fragment() {
         // Set onClickListener for button
         btnLogin.setOnClickListener {
             // Perform login validation
-            val isValid = validateLogin()
 
-            if (isValid) {
-                // Navigate to MainActivity
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                // Display an error message or handle the invalid login case
-                Toast.makeText(activity, "Invalid login credentials", Toast.LENGTH_SHORT).show()
-            }
+            val txtUsername: EditText = requireView().findViewById(R.id.txtUsername)
+            val txtPassword: EditText = requireView().findViewById(R.id.txtPassword)
+
+            val email = txtUsername.text.toString()
+            val password = txtPassword.text.toString()
+
+            loginWithEmailPassword(email, password)
         }
 
         val imgIcon : ImageView = view.findViewById(R.id.imgIcon)
@@ -87,93 +86,42 @@ class LoginFragment : Fragment() {
         return view
     }
 
-    private fun validateLogin(): Boolean {
-        val txtUsername: EditText = requireView().findViewById(R.id.txtUsername)
-        val txtPassword: EditText = requireView().findViewById(R.id.txtPassword)
-
-        val username = txtUsername.text.toString()
-        val password = txtPassword.text.toString()
-
+    private fun loginWithEmailPassword(email: String, password: String) {
         // Perform input validation
-        if (username.equals("") || password.equals("")){
-            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            return false
+        if (email.isBlank() || password.isBlank()) {
+            // Handle empty email or password
+            Log.d("LoginActivity", "Empty email or password")
+            return
         }
-        //get the user reference in firebase
-        val reference = FirebaseDatabase.getInstance().getReference("User")
-        //check if there is any user with the entered user name
 
-        val checkUser: Query = reference.orderByChild("name")
-            .equalTo(username)
+        // Get an instance of FirebaseAuth
+        val auth = FirebaseAuth.getInstance()
 
-        checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    val fb_name = snapshot.child(username).child("name").getValue(String::class.java)
-                    val fb_email = snapshot.child(username).child("email").getValue(String::class.java)
-                    val fb_password = snapshot.child(username).child("password").getValue(String::class.java)
+        // Sign in with email and password
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Login successful
+                    Log.d("LoginActivity", "Login successful")
 
-                    //check if the user doesn't exists
-                    if(!username.equals(fb_name) || !password.equals(fb_password)){
-                        Toast.makeText(
-                            context,
-                            "user doesn't exist!",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }else{
-                        if (fb_email != null) {
-                            //try to sign the user in
-                            try{
-                                this@LoginFragment.auth.signInWithEmailAndPassword(fb_email, fb_password)
-                                    .addOnCompleteListener { task: Task<AuthResult> ->
-                                        if (task.isSuccessful) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d(ContentValues.TAG, "signInWithEmail:success")
-                                            //val current_user = auth.currentUser
-                                            //updateUI(user)
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
-                                            Toast.makeText(
-                                                context,
-                                                "Authentication failed.",
-                                                Toast.LENGTH_SHORT,
-                                            ).show()
-                                            Toast.makeText(
-                                                context,
-                                                task.exception?.message,
-                                                Toast.LENGTH_SHORT,
-                                            ).show()
-                                            //updateUI(null)
-                                        }
-                                    }
-                            }catch (ex: Exception){
-                                Toast.makeText(
-                                    context,
-                                    ex.message,
-                                    Toast.LENGTH_SHORT,
-                                ).show()
-                            }
-                        }
-                        Toast.makeText(
-                            context,
-                            "user exists...",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
+                    //TODO: set current user info after login. Maybe just use firebase currentUser for all.
+
+                    //Navigate
+                    val intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+
+                } else {
+                    // Login failed
+                    Log.d("LoginActivity", "Login failed: ${task.exception?.message}")
+
+                    //Show message
+                    Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    context,
-                    "Cancelled",
-                    Toast.LENGTH_SHORT,
-                ).show()
-            }
-        })
-        return true
     }
 
+
+    //TODO: Figure this out
     private fun filterLists() {
         //Filter global lists according to logged in user, other user's data is not needed
         //Other user's data gets repopulated each time app opens/LoginActivity
