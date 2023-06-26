@@ -25,61 +25,38 @@ import com.opsc.workmate.data.User
 
 class RegisterFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
-    //firebase database & database reference reference's
-    private var firebaseReference : FirebaseDatabase? = null
-    private var UserDatabaseReference : DatabaseReference? = null
+    private var firebaseReference: FirebaseDatabase? = null
+    private var userDatabaseReference: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         auth = Firebase.auth
-        //create a reference to the user object in firebase
-        UserDatabaseReference = FirebaseDatabase.getInstance().getReference("User")
+        firebaseReference = FirebaseDatabase.getInstance()
+        userDatabaseReference = firebaseReference?.getReference("User")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
-
-        //---- Navigate to register screen ----
-        // Find the TextView by ID
         val txtLogIn: TextView = view.findViewById(R.id.txtLogIn)
 
-        // Set onClickListener for the TextView
         txtLogIn.setOnClickListener {
-            // Get the NavController
             val navController = Navigation.findNavController(view)
-
-            // Navigate to the registerFragment using the action defined in the nav_graph_login.xml
             navController.navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
-        //---- Register Button ----
-        // Find the Button by ID
         val btnRegister: Button = view.findViewById(R.id.btnRegister)
 
-        // Set OnClickListener for the Button
         btnRegister.setOnClickListener {
-            // Perform input validation
-            val isValid = RegisterUser()
-
-            if (isValid) {
-                // Get the NavController
-                val navController = Navigation.findNavController(view)
-                Toast.makeText(activity, "User Registered!", Toast.LENGTH_SHORT).show()
-
-                // Navigate to the registerFragment
-                navController.navigate(R.id.action_registerFragment_to_loginFragment)
-            } // else : feedback done in method
+            RegisterUser()
         }
 
         return view
     }
 
-    private fun RegisterUser(): Boolean {
+    private fun RegisterUser() {
         val txtUsername: EditText = requireView().findViewById(R.id.txtUsername)
         val txtPassword: EditText = requireView().findViewById(R.id.txtPassword)
         val txtConfirmPassword: EditText = requireView().findViewById(R.id.txtConfirmPassword)
@@ -91,62 +68,54 @@ class RegisterFragment : Fragment() {
         val confirmPassword = txtConfirmPassword.text.toString()
         val fullName = txtFullName.text.toString()
         val email = txtEmail.text.toString()
-        val free_coins = 10
+        val freeCoins = 10
 
-        // Perform input validation
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || fullName.isEmpty() || email.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
 
         if (password != confirmPassword) {
             Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
 
-        // Check if the username is already taken
         val isUsernameTaken = Global.users.any { it.username == username }
         if (isUsernameTaken) {
             Toast.makeText(requireContext(), "Username Taken!", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
 
         val isEmailTaken = Global.users.any { it.email == email }
         if (isEmailTaken) {
             Toast.makeText(requireContext(), "Email Taken!", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
 
-        // Create a new User object
-        val newUser = User(username, password, email, fullName, free_coins)
-
-        // Add the user to the Global.users list
-        if(newUser!=null){
-            // Add the user to the Firebase Realtime Database
-            UserDatabaseReference?.child(username)?.setValue(newUser)
+        val newUser = User(null, username, password, email, fullName, freeCoins)
 
 
-            this.auth.createUserWithEmailAndPassword(email, password)
+        if (newUser != null) {
+            auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task: Task<AuthResult> ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(ContentValues.TAG, "createUserWithEmail:success")
+                        val firebaseUser = auth.currentUser
+                        val uid = firebaseUser?.uid
+                        newUser.uid = uid
+
+                        userDatabaseReference?.child(uid ?: "")?.setValue(newUser)
+
+                        //Navigate
+                        val navController = Navigation.findNavController(requireView())
+                        Toast.makeText(activity, "User Registered!", Toast.LENGTH_SHORT).show()
+                        navController.navigate(R.id.action_registerFragment_to_loginFragment)
+
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
-                        //updateUI(null)
 
-                        //Exit with false becuase failure, need to also remove from local records
-
-                        Toast.makeText(
-                            context,
-                            task.exception?.message,
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
         }
-
-        return true
     }
 }

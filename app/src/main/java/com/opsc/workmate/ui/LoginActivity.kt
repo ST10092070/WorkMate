@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private fun insertSampleData() {
         //Method to insert sample data to use for testing
         //WARNING: data is randomly generated so can be weird sometimes
-        val testUser = User("user", "1234", "test@example.com", "Test User",10)
+        val testUser = User(null, "user", "1234", "test@example.com", "Test User",10)
         Global.users.add(testUser)
 
         var category = Category("user", "Studies", -9381821, "null")
