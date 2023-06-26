@@ -125,8 +125,9 @@ class RegisterFragment : Fragment() {
             //adding the user object into the firebase real-time database
             UserDatabaseReference!!.child(username).setValue(newUser)
             //adding object to local database
-            Global.users.add(newUser)
-            val user = Global.users.find { it.email == email && it.password == password }
+            Global.users.add(newUser) //Adds to Local user records
+            val user = Global.users.find { it.email == email && it.password == password } //Searches local user records
+
             //sign up to firebase using the entered email and password
             if(user!=null){
                 this.auth.createUserWithEmailAndPassword(email, password)
@@ -138,6 +139,9 @@ class RegisterFragment : Fragment() {
                             // If sign in fails, display a message to the user.
                             Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                             //updateUI(null)
+
+                            //Exit with false becuase failure, need to also remove from local records
+
                             Toast.makeText(
                                 context,
                                 task.exception?.message,
