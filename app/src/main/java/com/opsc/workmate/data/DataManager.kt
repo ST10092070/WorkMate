@@ -10,30 +10,38 @@ object DataManager {
     //Variables
     private const val CATEGORIES_COLLECTION = "Categories" // Collection name in the Firebase database
 
-    fun getCategories(uid: String): MutableList<Category> {
+    fun getCategories(uid: String, callback: (MutableList<Category>) -> Unit) {
         val categories = mutableListOf<Category>()
 
         val database = FirebaseDatabase.getInstance()
         val categoryRef = database.getReference(CATEGORIES_COLLECTION)
 
-        categoryRef.orderByChild("UID").equalTo(uid)
+        // Query the categories based on the specified UID
+        categoryRef.orderByChild("uid").equalTo(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Iterate over the retrieved data snapshots
                     for (snapshot in dataSnapshot.children) {
+                        // Retrieve the category object from the snapshot
                         val category = snapshot.getValue(Category::class.java)
                         category?.let {
+                            // Add the category to the list
                             categories.add(it)
                         }
                     }
+                    // Invoke the callback function with the retrieved categories
+                    callback(categories)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle the error
+                    callback(mutableListOf()) // Pass an empty list in case of error
                 }
             })
-
-        return categories
     }
+
+
+
 
     fun addCategory(category: Category, callback: (Boolean) -> Unit) {
         val database = FirebaseDatabase.getInstance()
@@ -51,7 +59,7 @@ object DataManager {
                 }
                 .addOnFailureListener { exception ->
                     // Error occurred while adding the category
-                    val exc = exception
+                    //Do something with exception...
                     callback(false) // Invoke the failure callback
                 }
         } else {

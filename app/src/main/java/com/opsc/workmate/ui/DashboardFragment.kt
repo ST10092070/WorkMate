@@ -122,14 +122,20 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         val catLayoutManager = LinearLayoutManager(requireContext())
         lstCategories.layoutManager = catLayoutManager
 
-        //Retrieve updated Categories
-        Global.categories = DataManager.getCategories(Global.currentUser!!.uid.toString())
+        // Retrieve updated Categories
+        DataManager.getCategories(Global.currentUser!!.uid.toString()) { categories ->
+            // Handle the retrieved categories here
 
-        // Create an instance of CategoryAdapter and pass the OnItemClickListener
-        val catAdapter = CategoryAdapter(Global.categories, this)
+            // Update the global categories list
+            Global.categories = categories
 
-        // Set the adapter to the RecyclerView
-        lstCategories.adapter = catAdapter
+            // Create an instance of CategoryAdapter and pass the OnItemClickListener
+            val catAdapter = CategoryAdapter(Global.categories, this)
+
+            // Set the adapter to the RecyclerView
+            lstCategories.adapter = catAdapter
+        }
+
     }
 
     // Implementation of the onItemClick method from the OnItemClickListener interface

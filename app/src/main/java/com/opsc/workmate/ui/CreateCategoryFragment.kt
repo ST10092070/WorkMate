@@ -126,7 +126,10 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         DataManager.addCategory(category) { isSuccess -> //Use callback to wait for results
             if (isSuccess)
             {
-                Global.categories = DataManager.getCategories(Global.currentUser!!.uid.toString())
+                //Update local categories list
+                DataManager.getCategories(Global.currentUser!!.uid.toString()) { categories ->
+                    Global.categories = categories
+                }
                 Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
                 //Navigate to dashboard if successful
                 // Get the NavController

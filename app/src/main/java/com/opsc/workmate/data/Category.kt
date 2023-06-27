@@ -6,12 +6,23 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class Category(
-    val UID: String,
-    val name: String,
-    val colour: Int? = Color.WHITE,
-    val imageData: String?
-    ) {
+class Category {
+    var UID: String = ""
+    var name: String = ""
+    var colour: Int? = Color.WHITE
+    var imageData: String? = null
+
+    constructor() {
+        // Empty constructor required by Firebase
+    }
+
+    constructor(UID: String, name: String, colour: Int? = Color.WHITE, imageData: String?) {
+        this.UID = UID
+        this.name = name
+        this.colour = colour
+        this.imageData = imageData
+    }
+
 
     companion object {
         fun getTotalHours(entries: List<Entry>): String {
