@@ -47,7 +47,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Check if arguments exist
         if (arguments != null) {
             // Retrieve the data from the bundle
-            val username = arguments.getString("username")
+            val UID = arguments.getString("UID")
             val name = arguments.getString("name")
             val colour = arguments.getInt("colour")
             val imageData = arguments.getString("imageData")
@@ -105,7 +105,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.UID)
+        bundle.putString("UID", entry.UID)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)

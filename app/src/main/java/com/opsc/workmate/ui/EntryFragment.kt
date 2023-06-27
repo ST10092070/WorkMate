@@ -41,7 +41,7 @@ class EntryFragment : Fragment() {
         // Check if arguments exist
         if (arguments != null) {
             // Retrieve the data from the bundle
-            val username = arguments.getString("username")
+            val UID = arguments.getString("UID")
             val category = arguments.getString("category")
             val date = arguments.getString("date")
             val startTime = arguments.getString("startTime")

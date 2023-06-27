@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.CategoryAdapter
+import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Global.entries
@@ -42,56 +43,9 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
+        //Set current user Work Coins
         var work_coins: TextView = view.findViewById(R.id.txtWorkCoins)
-
-        for(user in users){
-            //get the user reference in firebase
-            val reference = FirebaseDatabase.getInstance().getReference("User")
-            //check if there is any user with the entered user name
-            val checkUser: Query = reference.orderByChild("name")
-                .equalTo(user.username)
-
-            checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
-                        val fb_name = snapshot.child(user.username).child("name").getValue(String::class.java)
-                        val fb_email = snapshot.child(user.username).child("email").getValue(String::class.java)
-                        val fb_password = snapshot.child(user.username).child("password").getValue(String::class.java)
-
-                        //check if the user doesn't exists
-                        if(user.username.equals(fb_name) || user.password.equals(fb_password)){
-                            if (fb_email != null) {
-                                //try to sign the user in
-                                try{
-                                    if (fb_email != null) {
-                                        //display the user work coins
-                                        work_coins.text = user.workcoins.toString()
-
-                                    }
-                                }catch (ex: Exception){
-                                    Toast.makeText(
-                                        context,
-                                        ex.message,
-                                        Toast.LENGTH_SHORT,
-                                    ).show()
-                                }
-                            }
-                        }else{
-
-                        }
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        context,
-                        "Cancelled",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
-            })
-
-        }
-
+        work_coins.text = Global.currentUser!!.workcoins.toString()
 
         //implement RecyclerView for Categories -------------
         // Find the RecyclerView by ID
@@ -129,9 +83,9 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
             navController.navigate(R.id.action_dashboardFragment_to_newEntryFragment)
         }
 
+        //Sing Out button Logic
         auth = FirebaseAuth.getInstance()
-        // Find the btn by ID
-        val btnSignout: Button = view.findViewById(R.id.btnSignout)
+        val btnSignout: Button = view.findViewById(R.id.btnSignout) // Find the btn by ID
         btnSignout.setOnClickListener {
 
             //signing the current user out of firebase
@@ -168,6 +122,9 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         val catLayoutManager = LinearLayoutManager(requireContext())
         lstCategories.layoutManager = catLayoutManager
 
+        //Retrieve updated Categories
+        Global.categories = DataManager.getCategories(Global.currentUser!!.uid.toString())
+
         // Create an instance of CategoryAdapter and pass the OnItemClickListener
         val catAdapter = CategoryAdapter(Global.categories, this)
 
@@ -180,7 +137,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.UID)
+        bundle.putString("UID", entry.UID)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)
@@ -200,7 +157,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", category.UID)
+        bundle.putString("UID", category.UID)
         bundle.putString("name", category.name)
         category.colour?.let { bundle.putInt("colour", it) }
         bundle.putString("imageData", category.imageData)

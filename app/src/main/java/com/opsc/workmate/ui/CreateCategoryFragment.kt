@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.provider.MediaStore
 import android.util.Base64
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import eltos.simpledialogfragment.color.SimpleColorWheelDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.opsc.workmate.R.*
+import com.opsc.workmate.data.DataManager
 import java.io.ByteArrayOutputStream
 
 
@@ -92,20 +94,13 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         //Implement create category button
         btnCreate.setOnClickListener {
-            var isCreated : Boolean = createCategory()
-            if (isCreated) {
-                //Navigate to dashboard if successful
-                // Get the NavController
-                val navController = Navigation.findNavController(view)
-                // Navigate to the relevant fragment
-                navController.navigate(R.id.action_createCategoryFragment_to_dashboardFragment)
-            }
+            createCategory()
         }
 
         return view
     }
 
-    private fun createCategory(): Boolean {
+    private fun createCategory() {
         //Variables
         var name : String
         var imageData : String
@@ -117,7 +112,7 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
         if (name == "") {
             Toast.makeText(activity, "Enter a name", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
 
         val category = Category(
@@ -127,13 +122,22 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
             imageData
         )
 
-        //TODO: Add to DB and update local Entries
+        //Add category to DB and update local storage
+        DataManager.addCategory(category) { isSuccess -> //Use callback to wait for results
+            if (isSuccess)
+            {
+                Global.categories = DataManager.getCategories(Global.currentUser!!.uid.toString())
+                Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
+                //Navigate to dashboard if successful
+                // Get the NavController
+                val navController = Navigation.findNavController(requireView())
+                // Navigate to the relevant fragment
+                navController.navigate(R.id.action_createCategoryFragment_to_dashboardFragment)
+            } else {
+                Toast.makeText(activity, "Category Creation Failed...", Toast.LENGTH_LONG).show()
+            }
 
-        Global.categories.add(category)
-
-
-        Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
-        return true
+        }
     }
 
     private fun convertImageToBase64(imageView: ImageView): String? {
