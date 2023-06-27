@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class Category(
-    val username: String,
+    val UID: String,
     val name: String,
     val colour: Int? = Color.WHITE,
     val imageData: String?

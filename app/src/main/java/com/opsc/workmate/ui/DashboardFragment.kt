@@ -1,25 +1,18 @@
 package com.opsc.workmate.ui
 
-import android.content.ContentValues
-import android.content.Intent
-import android.media.Image
 import com.opsc.workmate.data.EntryAdapter
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -187,7 +180,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.username)
+        bundle.putString("username", entry.UID)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)
@@ -207,7 +200,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", category.username)
+        bundle.putString("username", category.UID)
         bundle.putString("name", category.name)
         category.colour?.let { bundle.putInt("colour", it) }
         bundle.putString("imageData", category.imageData)

@@ -121,12 +121,17 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         }
 
         val category = Category(
-            Global.currentUser?.username.toString(),
+            Global.currentUser?.uid.toString(), //Store UID to create relationship
             name,
             colour,
             imageData
         )
+
+        //TODO: Add to DB and update local Entries
+
         Global.categories.add(category)
+
+
         Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
         return true
     }

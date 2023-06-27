@@ -1,6 +1,5 @@
 package com.opsc.workmate.ui
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,16 +13,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.opsc.workmate.MainActivity
 import com.opsc.workmate.R
@@ -31,7 +26,6 @@ import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.User
-import java.util.logging.Logger.global
 
 class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -162,14 +156,14 @@ class LoginFragment : Fragment() {
         val entries = Global.entries
         val filteredEntries: MutableList<Entry> = mutableListOf()
         entries.forEach { entry ->
-            if (entry.username.equals(Global.currentUser!!.username, ignoreCase = true))
+            if (entry.UID.equals(Global.currentUser!!.username, ignoreCase = true))
                 filteredEntries.add(entry) }
         Global.entries = filteredEntries
 
         val categories = Global.categories
         val filteredCategories: MutableList<Category> = mutableListOf()
         categories.forEach { category ->
-            if (category.username.equals(Global.currentUser!!.username, ignoreCase = true))
+            if (category.UID.equals(Global.currentUser!!.username, ignoreCase = true))
                 filteredCategories.add(category) }
         Global.categories = filteredCategories
     }

@@ -18,11 +18,9 @@ import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.EntryAdapter
 import com.opsc.workmate.data.Global
-import com.opsc.workmate.ui.EntryFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.util.logging.Logger.global
 
 class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
 
@@ -165,7 +163,7 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.username)
+        bundle.putString("username", entry.UID)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)
