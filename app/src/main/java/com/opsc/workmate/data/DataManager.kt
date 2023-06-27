@@ -4,11 +4,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.opsc.workmate.data.Global.categories
 
 object DataManager {
 
     //Variables
-    private const val CATEGORIES_COLLECTION = "Categories" // Collection name in the Firebase database
+    // Collection names in the Firebase database
+    private const val CATEGORIES_COLLECTION = "Categories"
+    private const val ENTRIES_COLLECTION = "Entries"
 
     fun getCategories(uid: String, callback: (MutableList<Category>) -> Unit) {
         val categories = mutableListOf<Category>()
@@ -40,9 +43,6 @@ object DataManager {
             })
     }
 
-
-
-
     fun addCategory(category: Category, callback: (Boolean) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val categoryRef = database.getReference(CATEGORIES_COLLECTION)
@@ -67,6 +67,60 @@ object DataManager {
         }
     }
 
+    fun getEntries(uid: String, callback: (MutableList<Entry>) -> Unit) {
+        val entries = mutableListOf<Entry>()
 
+        val database = FirebaseDatabase.getInstance()
+        val entryRef = database.getReference(ENTRIES_COLLECTION)
+
+        // Query the categories based on the specified UID
+        entryRef.orderByChild("uid").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Iterate over the retrieved data snapshots
+                    for (snapshot in dataSnapshot.children) {
+                        // Retrieve the entry object from the snapshot
+                        val entry = snapshot.getValue(Entry::class.java)
+                        entry?.let {
+                            // Add the entry to the list
+                            entries.add(it)
+                        }
+                    }
+                    // Invoke the callback function with the retrieved entries
+                    callback(entries)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle the error
+                    callback(mutableListOf()) // Pass an empty list in case of error
+                }
+            })
+
+
+    }
+
+    fun addEntry(entry: Entry, callback: (Boolean) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val entryRef = database.getReference(ENTRIES_COLLECTION)
+
+        // Generate a random ID for the category entry
+        val entryId = entryRef.push().key
+
+        // Add the category to the Firebase database using the generated ID
+        if (entryId != null) {
+            entryRef.child(entryId).setValue(entry)
+                .addOnSuccessListener {
+                    // Category added successfully
+                    callback(true) // Invoke the success callback
+                }
+                .addOnFailureListener { exception ->
+                    // Error occurred while adding the category
+                    //Do something with exception...
+                    callback(false) // Invoke the failure callback
+                }
+        } else {
+            callback(false) // Invoke the failure callback if categoryId is null
+        }
+    }
 
 }

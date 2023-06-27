@@ -156,7 +156,7 @@ class LoginFragment : Fragment() {
         val entries = Global.entries
         val filteredEntries: MutableList<Entry> = mutableListOf()
         entries.forEach { entry ->
-            if (entry.UID.equals(Global.currentUser!!.username, ignoreCase = true))
+            if (entry.uid.equals(Global.currentUser!!.username, ignoreCase = true))
                 filteredEntries.add(entry) }
         Global.entries = filteredEntries
 

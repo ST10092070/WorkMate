@@ -25,6 +25,8 @@ import com.opsc.workmate.data.CategoryAdapter
 import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
+import com.opsc.workmate.data.Global.categories
+import com.opsc.workmate.data.Global.currentUser
 import com.opsc.workmate.data.Global.entries
 import com.opsc.workmate.data.Global.users
 
@@ -108,13 +110,17 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         lstEntries.layoutManager = entryLayoutManager
 
         // Create an instance of EntryAdapter
-        val adapter = EntryAdapter(entries)
+        DataManager.getEntries(currentUser!!.uid.toString()) { entries ->
+            // Update the global categories list
+            Global.entries = entries
 
-        // Set the item click listener
-        adapter.setOnItemClickListener(this)
+            // Create an instance of CategoryAdapter and pass the OnItemClickListener
+            val entryAdapter = EntryAdapter(Global.entries)
+            entryAdapter.setOnItemClickListener(this)
+            // Set the adapter to the RecyclerView
+            lstEntries.adapter = entryAdapter
 
-        // Set the adapter to the RecyclerView
-        lstEntries.adapter = adapter
+        }
 
         val lstCategories: RecyclerView = view.findViewById(R.id.lstCategories)
 
@@ -124,8 +130,6 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
 
         // Retrieve updated Categories
         DataManager.getCategories(Global.currentUser!!.uid.toString()) { categories ->
-            // Handle the retrieved categories here
-
             // Update the global categories list
             Global.categories = categories
 
@@ -143,7 +147,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("UID", entry.UID)
+        bundle.putString("UID", entry.uid)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)

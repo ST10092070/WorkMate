@@ -163,7 +163,7 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.UID)
+        bundle.putString("uid", entry.uid)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)

@@ -92,7 +92,7 @@ class GoalsFragment : Fragment() {
                 val todayMonth = today.get(Calendar.MONTH)
                 val todayYear = today.get(Calendar.YEAR)
 
-                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear && entry.UID.equals(username, ignoreCase = true)) {
+                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear && entry.uid.equals(username, ignoreCase = true)) {
                     filteredEntries.add(entry)
                 }
             }

@@ -33,6 +33,8 @@ import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Image
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.opsc.workmate.data.DataManager
+import com.opsc.workmate.data.Global.categories
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.Calendar
@@ -94,14 +96,7 @@ class NewEntryFragment : Fragment() {
         }
 
         btnCreate.setOnClickListener {
-            var isCreated : Boolean = addEntry()
-            if (isCreated) {
-                //Navigate to dashboard if successful
-                // Get the NavController
-                val navController = Navigation.findNavController(view)
-                // Navigate to the relevant fragment
-                navController.navigate(R.id.action_newEntryFragment_to_dashboardFragment)
-            }
+            addEntry()
         }
 
         btnCategoryPicker = view.findViewById(R.id.btnCategoryPicker)
@@ -134,18 +129,18 @@ class NewEntryFragment : Fragment() {
     }
 
 
-    private fun addEntry() : Boolean {
+    private fun addEntry() {
         val startTime = btnStartTime.text.toString()
         val endTime = btnEndTime.text.toString()
         val date = btnDate.text.toString()
         val description = txtDescription.text.toString()
         val categoryName = btnCategoryPicker.text.toString()
-        val currentUser = Global.currentUser?.username.orEmpty()
+        val uid = Global.currentUser!!.uid.toString()
         val imageData = Image.convertImageToBase64(imgEntryImage).toString()
 
         if (startTime.isNotEmpty() && endTime.isNotEmpty() && date != "dd/mm/yyyy" && categoryName.lowercase() != "category") {
             val entry = Entry(
-                currentUser,
+                uid,
                 categoryName,
                 date,
                 startTime,
@@ -154,12 +149,22 @@ class NewEntryFragment : Fragment() {
                 description
             )
 
-            Global.entries.add(entry)
-            Toast.makeText(requireContext(), "Entry added successfully!", Toast.LENGTH_SHORT).show()
-            return true
-        } else {
-            Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
-            return false
+            DataManager.addEntry(entry) { success ->
+                if (success) {
+                    //Update local entries list
+                    DataManager.getEntries(Global.currentUser!!.uid.toString()) { entries ->
+                        Global.entries = entries
+                        Toast.makeText(requireContext(), "Entry added successfully!", Toast.LENGTH_SHORT).show()
+                        //Navigate to dashboard if successful
+                        // Get the NavController
+                        val navController = Navigation.findNavController(requireView())
+                        // Navigate to the relevant fragment
+                        navController.navigate(R.id.action_newEntryFragment_to_dashboardFragment)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
