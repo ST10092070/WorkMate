@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
-import com.opsc.workmate.data.CategoryAdapter
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.EntryAdapter
 import com.opsc.workmate.data.Global
@@ -48,7 +47,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Check if arguments exist
         if (arguments != null) {
             // Retrieve the data from the bundle
-            val username = arguments.getString("username")
+            val UID = arguments.getString("UID")
             val name = arguments.getString("name")
             val colour = arguments.getInt("colour")
             val imageData = arguments.getString("imageData")
@@ -106,7 +105,7 @@ class CategoryDetailsFragment : Fragment(), EntryAdapter.OnItemClickListener {
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.username)
+        bundle.putString("UID", entry.uid)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)

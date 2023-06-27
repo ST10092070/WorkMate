@@ -1,25 +1,18 @@
 package com.opsc.workmate.ui
 
-import android.content.ContentValues
-import android.content.Intent
-import android.media.Image
 import com.opsc.workmate.data.EntryAdapter
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,8 +22,11 @@ import com.google.firebase.database.ValueEventListener
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.CategoryAdapter
+import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
+import com.opsc.workmate.data.Global.categories
+import com.opsc.workmate.data.Global.currentUser
 import com.opsc.workmate.data.Global.entries
 import com.opsc.workmate.data.Global.users
 
@@ -49,56 +45,9 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
+        //Set current user Work Coins
         var work_coins: TextView = view.findViewById(R.id.txtWorkCoins)
-
-        for(user in users){
-            //get the user reference in firebase
-            val reference = FirebaseDatabase.getInstance().getReference("User")
-            //check if there is any user with the entered user name
-            val checkUser: Query = reference.orderByChild("name")
-                .equalTo(user.username)
-
-            checkUser.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
-                        val fb_name = snapshot.child(user.username).child("name").getValue(String::class.java)
-                        val fb_email = snapshot.child(user.username).child("email").getValue(String::class.java)
-                        val fb_password = snapshot.child(user.username).child("password").getValue(String::class.java)
-
-                        //check if the user doesn't exists
-                        if(user.username.equals(fb_name) || user.password.equals(fb_password)){
-                            if (fb_email != null) {
-                                //try to sign the user in
-                                try{
-                                    if (fb_email != null) {
-                                        //display the user work coins
-                                        work_coins.text = user.workcoins.toString()
-
-                                    }
-                                }catch (ex: Exception){
-                                    Toast.makeText(
-                                        context,
-                                        ex.message,
-                                        Toast.LENGTH_SHORT,
-                                    ).show()
-                                }
-                            }
-                        }else{
-
-                        }
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        context,
-                        "Cancelled",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
-            })
-
-        }
-
+        work_coins.text = Global.currentUser!!.workcoins.toString()
 
         //implement RecyclerView for Categories -------------
         // Find the RecyclerView by ID
@@ -136,9 +85,9 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
             navController.navigate(R.id.action_dashboardFragment_to_newEntryFragment)
         }
 
+        //Sing Out button Logic
         auth = FirebaseAuth.getInstance()
-        // Find the btn by ID
-        val btnSignout: Button = view.findViewById(R.id.btnSignout)
+        val btnSignout: Button = view.findViewById(R.id.btnSignout) // Find the btn by ID
         btnSignout.setOnClickListener {
 
             //signing the current user out of firebase
@@ -161,13 +110,17 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         lstEntries.layoutManager = entryLayoutManager
 
         // Create an instance of EntryAdapter
-        val adapter = EntryAdapter(entries)
+        DataManager.getEntries(currentUser!!.uid.toString()) { entries ->
+            // Update the global categories list
+            Global.entries = entries
 
-        // Set the item click listener
-        adapter.setOnItemClickListener(this)
+            // Create an instance of CategoryAdapter and pass the OnItemClickListener
+            val entryAdapter = EntryAdapter(Global.entries)
+            entryAdapter.setOnItemClickListener(this)
+            // Set the adapter to the RecyclerView
+            lstEntries.adapter = entryAdapter
 
-        // Set the adapter to the RecyclerView
-        lstEntries.adapter = adapter
+        }
 
         val lstCategories: RecyclerView = view.findViewById(R.id.lstCategories)
 
@@ -175,11 +128,18 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         val catLayoutManager = LinearLayoutManager(requireContext())
         lstCategories.layoutManager = catLayoutManager
 
-        // Create an instance of CategoryAdapter and pass the OnItemClickListener
-        val catAdapter = CategoryAdapter(Global.categories, this)
+        // Retrieve updated Categories
+        DataManager.getCategories(Global.currentUser!!.uid.toString()) { categories ->
+            // Update the global categories list
+            Global.categories = categories
 
-        // Set the adapter to the RecyclerView
-        lstCategories.adapter = catAdapter
+            // Create an instance of CategoryAdapter and pass the OnItemClickListener
+            val catAdapter = CategoryAdapter(Global.categories, this)
+
+            // Set the adapter to the RecyclerView
+            lstCategories.adapter = catAdapter
+        }
+
     }
 
     // Implementation of the onItemClick method from the OnItemClickListener interface
@@ -187,7 +147,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", entry.username)
+        bundle.putString("UID", entry.uid)
         bundle.putString("category", entry.categoryName)
         bundle.putString("date", entry.date)
         bundle.putString("startTime", entry.startTime)
@@ -207,7 +167,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         // Handle the click event and navigate to a different fragment
         //Add data to bundle
         val bundle = Bundle()
-        bundle.putString("username", category.username)
+        bundle.putString("UID", category.UID)
         bundle.putString("name", category.name)
         category.colour?.let { bundle.putInt("colour", it) }
         bundle.putString("imageData", category.imageData)

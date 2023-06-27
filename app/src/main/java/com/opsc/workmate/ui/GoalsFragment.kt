@@ -13,7 +13,6 @@ import com.opsc.workmate.R
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Goal
-import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalTime
@@ -93,7 +92,7 @@ class GoalsFragment : Fragment() {
                 val todayMonth = today.get(Calendar.MONTH)
                 val todayYear = today.get(Calendar.YEAR)
 
-                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear && entry.username.equals(username, ignoreCase = true)) {
+                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear && entry.uid.equals(username, ignoreCase = true)) {
                     filteredEntries.add(entry)
                 }
             }

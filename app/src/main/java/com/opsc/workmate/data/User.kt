@@ -28,3 +28,4 @@ class User {
         this.workcoins = workcoins
     }
 }
+
