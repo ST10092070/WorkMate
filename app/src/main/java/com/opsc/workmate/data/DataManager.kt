@@ -123,4 +123,13 @@ object DataManager {
         }
     }
 
+    fun getGoal(uid: String, callback: (Goal) -> Unit) {
+
+    }
+
+    fun setGoal(goal: Goal, callback: (Boolean) -> Unit) {
+
+    }
+
+
 }
