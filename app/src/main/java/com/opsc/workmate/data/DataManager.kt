@@ -12,6 +12,7 @@ object DataManager {
     // Collection names in the Firebase database
     private const val CATEGORIES_COLLECTION = "Categories"
     private const val ENTRIES_COLLECTION = "Entries"
+    private const val GOALS_COLLECTION = "Goals"
 
     fun getCategories(uid: String, callback: (MutableList<Category>) -> Unit) {
         val categories = mutableListOf<Category>()
@@ -123,13 +124,77 @@ object DataManager {
         }
     }
 
-    fun getGoal(uid: String, callback: (Goal) -> Unit) {
+    fun getGoal(uid: String, callback: (Goal?) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val goalRef = database.getReference(GOALS_COLLECTION)
 
+        val query = goalRef.orderByChild("uid").equalTo(uid)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val goalSnapshot = dataSnapshot.children.first()
+                    val goal = goalSnapshot.getValue(Goal::class.java)
+                    callback(goal)
+                } else {
+                    callback(null) // No goal found for the specified UID
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //Something went wrong
+                callback(null) // Pass null in case of error
+            }
+        })
     }
+
 
     fun setGoal(goal: Goal, callback: (Boolean) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val goalRef = database.getReference(GOALS_COLLECTION)
 
+        //Search for already-existing entry for this user
+        val query = goalRef.orderByChild("uid").equalTo(goal.uid)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // User already has a goal entry, update it with the new goal
+                    val goalSnapshot = dataSnapshot.children.first()
+                    val goalId = goalSnapshot.key
+                    goalId?.let {
+                        goalRef.child(it).setValue(goal)
+                            .addOnSuccessListener {
+                                // Goal updated successfully
+                                callback(true) // Invoke the success callback
+                            }
+                            .addOnFailureListener { exception ->
+                                // Error occurred while updating the goal
+                                callback(false) // Invoke the failure callback
+                            }
+                    }
+                } else {
+                    // No goal entry found, create a new one and set the goal object as its data
+                    val goalId = goalRef.push().key
+                    goalId?.let {
+                        goalRef.child(it).setValue(goal)
+                            .addOnSuccessListener {
+                                // Goal added successfully
+                                callback(true) // Invoke the success callback
+                            }
+                            .addOnFailureListener { exception ->
+                                // Error occurred while adding the goal
+                                callback(false) // Invoke the failure callback
+                            }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //Something went wrong
+                callback(false) // Invoke the failure callback
+            }
+        })
     }
+
 
 
 }
