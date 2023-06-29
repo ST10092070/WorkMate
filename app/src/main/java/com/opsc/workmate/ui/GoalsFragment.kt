@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.opsc.workmate.R
+import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Goal
@@ -56,21 +57,35 @@ class GoalsFragment : Fragment() {
 
         //Get values, return if null
 
-        val username = Global.currentUser!!.username
-        val goal: Goal = getCurrentuserGoals(username) ?: return
+        val uid = Global.currentUser!!.uid.toString()
 
-        txtMin = view.findViewById(R.id.txtMin)
-        txtMax = view.findViewById(R.id.txtMax)
-        zeroToMinProgress = view.findViewById(R.id.bar_zeroToMin)
-        minToMaxProgress = view.findViewById(R.id.bar_minToMax)
+        //Get user goal and set local data
+        var goal: Goal = Goal(uid, "00:00:00", "00:00:00") //Initialise variable
+        DataManager.getGoal(uid) { userGoal ->  //Update variable
+            if (userGoal != null) {
+                goal = userGoal
+                updateGoalDisplay(goal)
+            }
+        }
+    }
+
+    private fun updateGoalDisplay(goal: Goal) {
+        txtMin = requireView().findViewById(R.id.txtMin)
+        txtMax = requireView().findViewById(R.id.txtMax)
+        zeroToMinProgress = requireView().findViewById(R.id.bar_zeroToMin)
+        minToMaxProgress = requireView().findViewById(R.id.bar_minToMax)
 
         val minTime = goal.minGoal
         val maxTime = goal.maxGoal
 
         //Filter entries and add to list
+        //Update local entries
+        DataManager.getEntries(Global.currentUser!!.uid.toString()) { entries -> Global.entries = entries }
+
         var entries = Global.entries
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val today = Calendar.getInstance()
+
         today.set(Calendar.HOUR_OF_DAY, 0)
         today.set(Calendar.MINUTE, 0)
         today.set(Calendar.SECOND, 0)
@@ -92,7 +107,7 @@ class GoalsFragment : Fragment() {
                 val todayMonth = today.get(Calendar.MONTH)
                 val todayYear = today.get(Calendar.YEAR)
 
-                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear && entry.uid.equals(username, ignoreCase = true)) {
+                if (entryDay == todayDay && entryMonth == todayMonth && entryYear == todayYear) {
                     filteredEntries.add(entry)
                 }
             }
@@ -101,9 +116,12 @@ class GoalsFragment : Fragment() {
         //Use filtered list to calculate total time spent today
         val duration = calculateTotalTimeSpent(filteredEntries)
 
+        //Convert to LocalTime
+        val lMinTime = LocalTime.parse(minTime)
+        val lMaxTime = LocalTime.parse(maxTime)
         //get min and max as minutes
-        var minMinutes = minTime.hour * 60 + minTime.minute
-        var maxMinutes = maxTime.hour * 60 + maxTime.minute
+        var minMinutes = lMinTime.hour * 60 + lMinTime.minute
+        var maxMinutes = lMaxTime.hour * 60 + lMaxTime.minute
 
 
 
@@ -124,12 +142,6 @@ class GoalsFragment : Fragment() {
         zeroToMinProgress.progress = zeroToMinPercentage.toInt()
         minToMaxProgress.progress = minToMaxPercentage.toInt()
 
-
-    }
-
-    private fun getCurrentuserGoals(username: String): Goal? {
-
-        return Global.goals.find { it.username == username }
 
     }
 

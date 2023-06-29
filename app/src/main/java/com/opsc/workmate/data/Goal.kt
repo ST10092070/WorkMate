@@ -1,9 +1,14 @@
 package com.opsc.workmate.data
 
-import java.time.LocalTime
+class Goal() {
+    lateinit var uid: String
+    //Store time as string for firebase, doesn't support LocalTime
+    lateinit var minGoal: String
+    lateinit var maxGoal: String
 
-class Goal(
-    val uid: String,
-    val minGoal: LocalTime,
-    val maxGoal: LocalTime
-)
+    constructor(uid: String, minGoal: String, maxGoal: String) : this() {
+        this.uid = uid
+        this.minGoal = minGoal
+        this.maxGoal = maxGoal
+    }
+}
