@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.opsc.workmate.R
+import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Goal
 import java.time.LocalTime
@@ -45,35 +46,35 @@ class SetGoalsFragment : Fragment() {
         btnSetGoals = view.findViewById(R.id.btnConfirmGoals)
         btnSetGoals.setOnClickListener {
 
-            val success = setGoals(edtMinTime.text.toString(), edtMaxTime.text.toString(), Global.currentUser!!.username)
-
-            if (success) {
-                //Navigate and confirmation
-                Toast.makeText(activity, "Goals set!", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_setGoalsFragment_to_goalsFragment)
-            }
-
-
+            setGoals(edtMinTime.text.toString(), edtMaxTime.text.toString(), Global.currentUser!!.uid.toString())
         }
 
         return view
     }
 
-    private fun setGoals(minTimeString: String, maxTimeString: String, username: String): Boolean {
+    private fun setGoals(minTimeString: String, maxTimeString: String, uid: String) {
         //Validate time strings
         val minTime = convertTimeStringToTime(minTimeString)
         val maxTime = convertTimeStringToTime(maxTimeString)
-        if (minTime == null || maxTime == null)
-            return false
+
+        if (minTime == null || maxTime == null) {
+            Toast.makeText(activity, "Please fill in all fields", Toast.LENGTH_LONG).show()
+            return
+        }
 
         //Create object using data
-        val goal = Goal(username, minTime, maxTime)
+        val goal = Goal(uid, minTime.toString(), maxTime.toString())
 
-        //Add to program data
-        Global.goals.add(goal)
+        //Add to firebase and update local entry
+        DataManager.setGoal(goal) { success ->
 
-        return true
+            if (success) {
+                //Confirmation, update local, and navigate
+                Toast.makeText(activity, "Goals set!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_setGoalsFragment_to_goalsFragment)
+            }
 
+        }
     }
 
     private fun convertTimeStringToTime(timeString: String): LocalTime? {
