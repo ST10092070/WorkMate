@@ -91,14 +91,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnEntriesCategoryPicker"
-                style="?android:dropDownSpinnerStyle"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="wrap_content"
-                android:text="category"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btnFilter"
@@ -120,7 +112,10 @@
             android:background="@color/gray" />
 
 
-
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
