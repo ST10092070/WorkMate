@@ -1,19 +1,13 @@
 package com.opsc.workmate.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.RippleDrawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract.Data
-import android.provider.MediaStore
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -24,20 +18,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.opsc.workmate.R
-import com.opsc.workmate.data.Category
-import com.opsc.workmate.data.Global
-import com.opsc.workmate.data.Image
-import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.color.SimpleColorWheelDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.opsc.workmate.R.*
+import com.google.android.material.imageview.ShapeableImageView
+import com.opsc.workmate.R
+import com.opsc.workmate.R.layout
+import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.DataManager
+import com.opsc.workmate.data.Global
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.color.SimpleColorWheelDialog
 import java.io.ByteArrayOutputStream
 
 
@@ -46,12 +38,14 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
     //Variables
     private lateinit var btnChooseColour: Button
     private lateinit var btnCreate: Button
-    private lateinit var imgCategoryImage: ImageView
+    private lateinit var imgCategoryImage: ShapeableImageView
     private lateinit var btnUploadImg: FloatingActionButton
     private lateinit var txtCategoryName: EditText
-    private lateinit var txtSelectedColor: TextView
-    @ColorInt var colour = 0
+    private lateinit var txtCreateCategory: TextView
+    private lateinit var topview: View
+    private lateinit var bottomView: View
 
+    @ColorInt var colour = 0
 
     private var selectedColor: Int = Color.WHITE
 
@@ -76,7 +70,9 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
         imgCategoryImage = view.findViewById(R.id.imgCategoryImage)
         btnUploadImg = view.findViewById(R.id.btnUploadCategoryImg)
         txtCategoryName = view.findViewById(R.id.txtCategoryName)
-        txtSelectedColor = view.findViewById(R.id.txtColorSelected)
+        topview = view.findViewById(R.id.topview)
+        bottomView = view.findViewById(R.id.bottomView)
+        txtCreateCategory = view.findViewById(R.id.txtCreateCategory)
 
         //Implement colour picker
         btnChooseColour.setOnClickListener {
@@ -194,7 +190,11 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
             if (which == -1 && color != null) {
                 // Handle the selected color
                 selectedColor = color
-                txtSelectedColor.setBackgroundColor(selectedColor)
+                txtCreateCategory.setTextColor(selectedColor)
+                topview.setBackgroundColor(selectedColor)
+                btnChooseColour.setBackgroundColor(selectedColor)
+                btnCreate.setBackgroundColor(selectedColor)
+                bottomView.setBackgroundColor(selectedColor)
                 colour = extras.getInt(SimpleColorWheelDialog.COLOR)
                 return true // Dialog result was handled
             }
