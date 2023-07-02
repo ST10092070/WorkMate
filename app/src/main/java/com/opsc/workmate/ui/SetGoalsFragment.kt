@@ -71,6 +71,12 @@ class SetGoalsFragment : Fragment() {
             if (success) {
                 //Confirmation, update local, and navigate
                 Toast.makeText(activity, "Goals set!", Toast.LENGTH_SHORT).show()
+
+                //rewarding the user with 3 work coins for setting their goals
+                val topup = Global.currentUser!!.workcoins!! + 3
+                Global.currentUser!!.workcoins = topup
+                Toast.makeText(activity, "You've been rewarded with 3 Work Coins!", Toast.LENGTH_SHORT).show()
+
                 findNavController().navigate(R.id.action_setGoalsFragment_to_goalsFragment)
             }
 
