@@ -41,14 +41,14 @@
             android:layout_marginBottom="@dimen/_20sdp"/>
 
         <EditText
-            android:id="@+id/txtUsername"
+            android:id="@+id/tbxEmail"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:background="@color/lightGreen"
             android:ems="10"
-            android:hint="Username..."
-            android:inputType="textPersonName"
+            android:hint="Email..."
+            android:inputType="textEmailAddress"
             android:text="" />
 
         <EditText

@@ -69,10 +69,10 @@ class LoginFragment : Fragment() {
         btnLogin.setOnClickListener {
             // Perform login validation
 
-            val txtUsername: EditText = requireView().findViewById(R.id.txtUsername)
+            val txtEmail: EditText = requireView().findViewById(R.id.tbxEmail)
             val txtPassword: EditText = requireView().findViewById(R.id.txtPassword)
 
-            val email = txtUsername.text.toString()
+            val email = txtEmail.text.toString()
             val password = txtPassword.text.toString()
 
             loginWithEmailPassword(email, password)

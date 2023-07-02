@@ -127,6 +127,12 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
                     Global.categories = categories
                 }
                 Toast.makeText(activity, "Category Created!", Toast.LENGTH_SHORT).show()
+
+                //rewarding the user with 5 work coins for creating a new category
+                val topup = Global.currentUser!!.workcoins!! + 5
+                Global.currentUser!!.workcoins = topup
+                Toast.makeText(activity, "You've been rewarded with 5 Work Coins!", Toast.LENGTH_SHORT).show()
+
                 //Navigate to dashboard if successful
                 // Get the NavController
                 val navController = Navigation.findNavController(requireView())

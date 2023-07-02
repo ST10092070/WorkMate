@@ -155,6 +155,12 @@ class NewEntryFragment : Fragment() {
                     DataManager.getEntries(Global.currentUser!!.uid.toString()) { entries ->
                         Global.entries = entries
                         Toast.makeText(requireContext(), "Entry added successfully!", Toast.LENGTH_SHORT).show()
+
+                        //rewarding the user with 2 work coins for creating a new entry
+                        val topup = Global.currentUser!!.workcoins!! + 2
+                        Global.currentUser!!.workcoins = topup
+                        Toast.makeText(activity, "You've been rewarded with 2 Work Coins!", Toast.LENGTH_SHORT).show()
+                        
                         //Navigate to dashboard if successful
                         // Get the NavController
                         val navController = Navigation.findNavController(requireView())
