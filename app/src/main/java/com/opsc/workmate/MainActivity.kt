@@ -7,10 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
-import com.opsc.workmate.R
+import com.opsc.workmate.data.NotificationChannel.createNotificationChannel
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
         drawerLayout = findViewById(R.id.my_drawer_layout)
@@ -91,9 +90,13 @@ class MainActivity : AppCompatActivity() {
 
                 else -> false
             }
+
         }
+        //register notification channel
+        createNotificationChannel(this)
 
     }
+
 
     // override the onOptionsItemSelected()function to implement the item click listener callback
     // to open and close the navigation drawer when the icon is clicked
@@ -103,3 +106,4 @@ class MainActivity : AppCompatActivity() {
         } else super.onOptionsItemSelected(item)
     }
 }
+

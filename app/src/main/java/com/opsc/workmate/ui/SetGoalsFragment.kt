@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import androidx.fragment.app.Fragment
+//import androidx.compose.material.Text
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.opsc.workmate.R
 import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.Goal
+import com.opsc.workmate.data.Notifications
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -46,7 +48,12 @@ class SetGoalsFragment : Fragment() {
         btnSetGoals = view.findViewById(R.id.btnConfirmGoals)
         btnSetGoals.setOnClickListener {
 
-            setGoals(edtMinTime.text.toString(), edtMaxTime.text.toString(), Global.currentUser!!.uid.toString())
+            setGoals(
+                edtMinTime.text.toString(),
+                edtMaxTime.text.toString(),
+                Global.currentUser!!.uid.toString()
+            )
+            Notifications.simpleNotification(context, "Goal set!", "Minimum and maximum time has been added.")
         }
 
         return view
@@ -143,4 +150,6 @@ class TimeInputFilter : InputFilter {
 
         return filteredStringBuilder.toString()
     }
+
+
 }
