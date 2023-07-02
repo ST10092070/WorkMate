@@ -1,20 +1,13 @@
 package com.opsc.workmate.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +16,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.navigation.Navigation
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Entry
@@ -34,9 +24,6 @@ import com.opsc.workmate.data.Image
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.opsc.workmate.data.DataManager
-import com.opsc.workmate.data.Global.categories
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.util.Calendar
 import java.util.Locale
 
@@ -158,8 +145,11 @@ class NewEntryFragment : Fragment() {
 
                         //rewarding the user with 2 work coins for creating a new entry
                         val topup = Global.currentUser!!.workcoins!! + 2
-                        Global.currentUser!!.workcoins = topup
-                        Toast.makeText(activity, "You've been rewarded with 2 Work Coins!", Toast.LENGTH_SHORT).show()
+                        DataManager.setWorkcoins(topup) { isSuccess ->
+                            if (isSuccess){
+                                Toast.makeText(activity, "You've been rewarded with 2 Work Coins!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                         
                         //Navigate to dashboard if successful
                         // Get the NavController

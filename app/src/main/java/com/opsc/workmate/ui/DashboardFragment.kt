@@ -2,6 +2,7 @@ package com.opsc.workmate.ui
 
 import com.opsc.workmate.data.EntryAdapter
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ import com.opsc.workmate.data.Global.users
 
 class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, CategoryAdapter.OnItemClickListener {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var work_coins: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,8 +48,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
         //Set current user Work Coins
-        var work_coins: TextView = view.findViewById(R.id.txtWorkCoins)
-        work_coins.text = Global.currentUser!!.workcoins.toString()
+        work_coins = view.findViewById(R.id.txtWorkCoins)
 
         //implement RecyclerView for Categories -------------
         // Find the RecyclerView by ID
@@ -109,6 +110,15 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         val entryLayoutManager = LinearLayoutManager(requireContext())
         lstEntries.layoutManager = entryLayoutManager
 
+        try{
+            DataManager.getWorkcoins(currentUser!!.uid.toString()){ coins ->
+                work_coins.text = StringBuilder().append(coins).toString()
+            }
+        }catch (e: Exception){
+            Log.d("coins exception",e.message.toString())
+        }
+
+
         // Create an instance of EntryAdapter
         DataManager.getEntries(currentUser!!.uid.toString()) { entries ->
             // Update the global categories list
@@ -119,7 +129,6 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
             entryAdapter.setOnItemClickListener(this)
             // Set the adapter to the RecyclerView
             lstEntries.adapter = entryAdapter
-
         }
 
         val lstCategories: RecyclerView = view.findViewById(R.id.lstCategories)
