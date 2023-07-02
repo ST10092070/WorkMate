@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -130,8 +129,11 @@ class CreateCategoryFragment : Fragment(), SimpleDialog.OnDialogResultListener {
 
                 //rewarding the user with 5 work coins for creating a new category
                 val topup = Global.currentUser!!.workcoins!! + 5
-                Global.currentUser!!.workcoins = topup
-                Toast.makeText(activity, "You've been rewarded with 5 Work Coins!", Toast.LENGTH_SHORT).show()
+                DataManager.setWorkcoins(topup) { isSuccess ->
+                    if (isSuccess){
+                        Toast.makeText(activity, "You've been rewarded with 5 Work Coins!", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
                 //Navigate to dashboard if successful
                 // Get the NavController

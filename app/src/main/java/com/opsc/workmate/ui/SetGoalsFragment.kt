@@ -74,8 +74,11 @@ class SetGoalsFragment : Fragment() {
 
                 //rewarding the user with 3 work coins for setting their goals
                 val topup = Global.currentUser!!.workcoins!! + 3
-                Global.currentUser!!.workcoins = topup
-                Toast.makeText(activity, "You've been rewarded with 3 Work Coins!", Toast.LENGTH_SHORT).show()
+                DataManager.setWorkcoins(topup) { isSuccess ->
+                    if (isSuccess){
+                        Toast.makeText(activity, "You've been rewarded with 3 Work Coins!", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
                 findNavController().navigate(R.id.action_setGoalsFragment_to_goalsFragment)
             }

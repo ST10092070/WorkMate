@@ -1,10 +1,10 @@
 package com.opsc.workmate.data
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.opsc.workmate.data.Global.categories
 
 object DataManager {
 
@@ -13,6 +13,7 @@ object DataManager {
     private const val CATEGORIES_COLLECTION = "Categories"
     private const val ENTRIES_COLLECTION = "Entries"
     private const val GOALS_COLLECTION = "Goals"
+    private const val USERS_COLLECTION = "User"
 
     fun getCategories(uid: String, callback: (MutableList<Category>) -> Unit) {
         val categories = mutableListOf<Category>()
@@ -195,6 +196,56 @@ object DataManager {
         })
     }
 
+    fun setWorkcoins(workcoins: Int, callback: (Boolean) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference(USERS_COLLECTION)
 
+        val id = Global.currentUser!!.uid
+
+        // Add the category to the Firebase database using the generated ID
+        if (id != null) {
+            val workcoinsRef = userRef.child(id).child("workcoins")
+            workcoinsRef.child(id).setValue(workcoins)
+                .addOnSuccessListener {
+                    // Category added successfully
+                    callback(true) // Invoke the success callback
+                }
+                .addOnFailureListener { exception ->
+                    // Error occurred while adding the category
+                    //Do something with exception...
+                    callback(false) // Invoke the failure callback
+                }
+        } else {
+            callback(false) // Invoke the failure callback if categoryId is null
+        }
+    }
+
+    fun getWorkcoins(uid: String, callback: (Any) -> Unit) {
+
+
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference(USERS_COLLECTION)
+
+        val workcoinsRef = userRef.child(uid).child("workcoins")
+
+        // Query the categories based on the specified UID
+        workcoinsRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    val workcoins = dataSnapshot.value
+
+                    if(workcoins!=null){
+                        callback(workcoins)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle the error
+                    callback(10) // Invoke the failure callback
+                    // Failed to read the value
+                    Log.d("Failed to read the value","Error: ${databaseError.message}")
+                }
+            })
+    }
 
 }
