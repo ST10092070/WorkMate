@@ -98,7 +98,7 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
 
             Toast.makeText(context,"Signing out...", Toast.LENGTH_SHORT).show()
             //navigate to login ACTIVITY
-            val intent = Intent(activity, MainActivity::class.java)
+            val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
 
         }
