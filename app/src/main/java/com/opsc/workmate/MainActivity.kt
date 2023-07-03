@@ -1,5 +1,9 @@
 package com.opsc.workmate
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -103,6 +107,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        createNotificationChannel(this)
+
+    }
+    fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "goalChannel"
+            val channelName = "Goal Channel"
+            val channelDescription = "Used to display a notification for reaching goal"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = channelDescription
+            }
+
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     // override the onOptionsItemSelected()function to implement the item click listener callback
