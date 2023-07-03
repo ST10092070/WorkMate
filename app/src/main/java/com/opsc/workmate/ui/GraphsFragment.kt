@@ -3,28 +3,24 @@ package com.opsc.workmate.ui
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.graphics.Color
-import android.os.Build.VERSION_CODES.M
 import android.os.Bundle
+import android.util.Half.toFloat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.opsc.workmate.R
+import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Entry
 import com.opsc.workmate.data.Global
 import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -65,6 +61,8 @@ class GraphsFragment : Fragment() {
         btnFilter.setOnClickListener {
             filterEntries()
         }
+
+        DataManager.getGoal(Global.currentUser!!.uid.toString()) { goal -> Global.goal = goal!! } //Get current goals
 
         return view
     }
@@ -112,52 +110,110 @@ class GraphsFragment : Fragment() {
         //Initialise LineChart variable
         val chart : LineChart = requireView().findViewById(com.opsc.workmate.R.id.lineChart)
 
-        //Order filteredEntries to date
-        val orderedEntries = filteredEntries.sortedBy { entry -> entry.date }
-
-        //Create list that contains dates of entries
+        //Create list that contains total times on dates and dates list for labels
+        data class TimeEntry(val date: String, var value: Float)
+        val lstTimes: ArrayList<TimeEntry> = ArrayList()
         val lstDates = ArrayList<String>()
-        filteredEntries.forEach { entry ->
-            lstDates.add(entry.date)
+
+        for (i in 0..filteredEntries.lastIndex) {
+            val entry = filteredEntries[i]
+            val timeSpentMillis = calculateDuration(entry.startTime, entry.endTime)
+            var found = false
+            var pos = 0
+            for (item in lstTimes) {
+                if (item.date.equals(entry.date)) {
+                    //Add to list in existing pos
+                    lstTimes[pos].value = lstTimes[pos].value.toFloat() + ( timeSpentMillis.toFloat() / (1000 * 60 * 60) )
+                    found = true
+                    break
+                }
+                pos ++
+            }
+
+            //If not found, create new
+            if (!found) {
+                lstDates.add((entry.date))
+                lstTimes.add(TimeEntry(entry.date, timeSpentMillis.toFloat() / (1000 * 60 * 60)))
+            }
         }
 
-        //Create list of entries that correspond to dates
+        var xAxis = chart.xAxis
+        xAxis.valueFormatter = IndexAxisValueFormatter(lstDates)
+        xAxis.textSize = 10f
+
+        //---------------------------------------------------------
+
+        //Create list of entries that correspond to dates and dataset
         val lstEntries : ArrayList<com.github.mikephil.charting.data.Entry> = ArrayList()
         var counter = 0
-        filteredEntries.forEach { entry ->
-            //Calculate time spent to set as y value
-            val timeSpentMillis = calculateDuration(entry.startTime, entry.endTime)
 
-            lstEntries.add(com.github.mikephil.charting.data.Entry(counter++.toFloat(), timeSpentMillis.toFloat()/1000000))
-        }
+        lstTimes.forEach { timeEntry -> lstEntries.add(com.github.mikephil.charting.data.Entry(counter++.toFloat(), timeEntry.value)) }
 
-
-        //Create DataSet for entries
-        val lineDataSet = LineDataSet(lstEntries, "Total Time")
-
+        val ldsEntries = LineDataSet(lstEntries, "Total Time")
         //Set display styling
-        lineDataSet.color = Color.GREEN
-        lineDataSet.setCircleColor(Color.BLUE)
-        lineDataSet.circleRadius = 5f
-        lineDataSet.valueTextSize = 12f
+        ldsEntries.color = Color.BLUE
+        ldsEntries.setCircleColor(Color.BLUE)
+        ldsEntries.circleRadius = 5f
+        ldsEntries.valueTextSize = 12f
+        ldsEntries.lineWidth = 2f
         // Set the mode to apply cubic Bezier curve interpolation
-        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        ldsEntries.mode = LineDataSet.Mode.CUBIC_BEZIER
 
-        val xAxis = chart.xAxis
-        xAxis.valueFormatter = IndexAxisValueFormatter(lstDates)
-        xAxis.textSize = 12f
+        //Create Line for Min and Max Goals
+        val lstGoalMin : ArrayList<com.github.mikephil.charting.data.Entry> = ArrayList()
+        val lstGoalMax : ArrayList<com.github.mikephil.charting.data.Entry> = ArrayList()
 
-        val data = LineData(lineDataSet)
+        DataManager.getGoal(Global.currentUser!!.uid.toString()) { goal -> Global.goal = goal!! } //Get current goals
+        val minGoal = Global.goal.minGoal
+        val maxGoal = Global.goal.maxGoal
+
+        //Set first points
+        var entryPos = 0F
+        lstGoalMin.add(com.github.mikephil.charting.data.Entry(entryPos, calculateDuration("00:00", minGoal).toFloat() / (1000 * 60 * 60)))
+        lstGoalMax.add(com.github.mikephil.charting.data.Entry(entryPos, calculateDuration("00:00", maxGoal).toFloat() / (1000 * 60 * 60)))
+
+        //Set last points
+        entryPos = lstTimes.lastIndex.toFloat()
+        lstGoalMin.add(com.github.mikephil.charting.data.Entry(entryPos, calculateDuration("00:00", minGoal).toFloat() / (1000 * 60 * 60)))
+        lstGoalMax.add(com.github.mikephil.charting.data.Entry(entryPos, calculateDuration("00:00", maxGoal).toFloat() / (1000 * 60 * 60)))
+
+        //Create LineDataSets for mingoal and maxgoal
+        val ldsMinGoal = LineDataSet(lstGoalMin, "Min Goal")
+        ldsMinGoal.color = Color.YELLOW
+        ldsMinGoal.setCircleColor(Color.YELLOW)
+        ldsMinGoal.circleRadius = 0f
+        ldsMinGoal.valueTextSize = 0f
+        ldsMinGoal.lineWidth = 5f
+
+        val ldsMaxGoal = LineDataSet(lstGoalMax, "Max Goal")
+        ldsMaxGoal.color = Color.GREEN
+        ldsMaxGoal.setCircleColor(Color.GREEN)
+        ldsMaxGoal.circleRadius = 0f
+        ldsMaxGoal.valueTextSize = 0f
+        ldsMaxGoal.lineWidth = 5f
+
+
+
+        //Display chart
+        val data = LineData(ldsEntries, ldsMinGoal, ldsMaxGoal)
 
         chart.data = data
         chart.axisLeft.textSize = 12f
         chart.axisRight.textSize = 12f
         chart.description.text = ""
+        chart.legend.textSize = 12f
+        chart.legend.direction =  Legend.LegendDirection.RIGHT_TO_LEFT
         chart.setBackgroundColor(resources.getColor(R.color.lightGray))
         chart.animateY(3000)
         chart.setDrawGridBackground(false)
 
         chart.invalidate()
+    }
+
+    fun convertTimeToMilliseconds(timeString: String): Long {
+        val format = SimpleDateFormat("HH:mm")
+        val date: Date = format.parse(timeString)
+        return date.time
     }
 
     private fun calculateDuration(startTime: String, endTime: String): Long {
@@ -175,19 +231,6 @@ class GraphsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun showCategoryPickerDialog() {
-        val categoryArray = categoryNames.toTypedArray()
-        val selectedCategoryIndex = categoryArray.indexOf(btnCategory.text.toString())
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Select Category")
-            .setSingleChoiceItems(categoryArray, selectedCategoryIndex) { dialog, which ->
-                btnCategory.text = categoryArray[which]
-                dialog.dismiss()
-            }
-            .show()
     }
 
     private fun showDatePickerDialog(button: Button) {

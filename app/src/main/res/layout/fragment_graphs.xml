@@ -18,7 +18,7 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Graphs"
+            android:text="Graph"
             android:textColor="@color/white"
             android:textSize="@dimen/_28ssp"
             android:textStyle="bold" />
