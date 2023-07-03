@@ -29,6 +29,11 @@
         android:title="Goals" />
 
     <item
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/market"
+        android:title="WorkMate Market" />
+
+    <item
         android:id="@+id/graphsFragment"
         android:icon="@drawable/menu_graphs"
         android:title="graphs" />
