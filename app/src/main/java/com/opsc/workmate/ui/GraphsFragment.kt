@@ -85,9 +85,6 @@ class GraphsFragment : Fragment() {
             return
         }
 
-        //Initialise LineChart variable
-        val chart : LineChart = requireView().findViewById(com.opsc.workmate.R.id.lineChart)
-
         // Get Entries List
         val entries = Global.entries
         var filteredEntries: MutableList<Entry> = mutableListOf()
@@ -100,6 +97,12 @@ class GraphsFragment : Fragment() {
             }
         }
         //Order filteredEntries to date
+
+        if (filteredEntries.isEmpty()) {
+            Toast.makeText(requireContext(), "No records to display", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         filteredEntries = filteredEntries.sortedBy { entry -> entry.date } as MutableList<Entry>
 
         //Create and display lineChart
