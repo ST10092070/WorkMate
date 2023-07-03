@@ -1,5 +1,7 @@
 package com.opsc.workmate.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
 import com.opsc.workmate.R
 import com.opsc.workmate.data.DataManager
@@ -142,6 +147,44 @@ class GoalsFragment : Fragment() {
         zeroToMinProgress.progress = zeroToMinPercentage.toInt()
         minToMaxProgress.progress = minToMaxPercentage.toInt()
 
+        if (zeroToMinPercentage >= 100f) {
+            sendNotification()
+        }
+
+
+    }
+
+    private fun sendNotification() {
+        val notificationId = 1 // Unique ID for the notification
+
+        val channelId = "goalChannel" // Same as the channel ID used in mainactivity
+        val title = "Goal Reached!"
+        val message = "Well done, you reached your daily goal!"
+
+        val notificationBuilder = NotificationCompat.Builder(requireContext(), channelId)
+            .setSmallIcon(R.drawable.workmate_logo)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true) // Automatically dismiss the notification when clicked
+
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request the missing permission from the user
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                123
+            )
+        } else {
+            // Build and display the notification
+            notificationManager.notify(notificationId, notificationBuilder.build())
+        }
 
     }
 
