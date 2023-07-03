@@ -18,7 +18,7 @@ import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Global
 import com.opsc.workmate.data.GridAdapter
 import com.opsc.workmate.data.PhotoAdapter
-import com.opsc.workmate.data.NFTitem
+import com.opsc.workmate.data.NFTItem
 
 class MarketFragment : Fragment() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -80,15 +80,15 @@ class MarketFragment : Fragment() {
         )
 
         val NFTs = listOf(
-            NFTitem(R.drawable.nft1, R.drawable.wcoins, "₩643"),
-            NFTitem(R.drawable.nft2, R.drawable.wcoins, "₩498"),
-            NFTitem(R.drawable.nft3, R.drawable.wcoins, "₩954"),
-            NFTitem(R.drawable.nft4, R.drawable.wcoins, "₩834"),
-            NFTitem(R.drawable.nft5, R.drawable.wcoins, "₩1760"),
-            NFTitem(R.drawable.nft6, R.drawable.wcoins, "₩503"),
-            NFTitem(R.drawable.nft7, R.drawable.wcoins, "₩1980"),
-            NFTitem(R.drawable.nft8, R.drawable.wcoins, "₩410"),
-            NFTitem(R.drawable.nft9, R.drawable.wcoins, "₩343")
+            NFTItem(R.drawable.nft1, R.drawable.wcoins, "₩643"),
+            NFTItem(R.drawable.nft2, R.drawable.wcoins, "₩498"),
+            NFTItem(R.drawable.nft3, R.drawable.wcoins, "₩954"),
+            NFTItem(R.drawable.nft4, R.drawable.wcoins, "₩834"),
+            NFTItem(R.drawable.nft5, R.drawable.wcoins, "₩1760"),
+            NFTItem(R.drawable.nft6, R.drawable.wcoins, "₩503"),
+            NFTItem(R.drawable.nft7, R.drawable.wcoins, "₩1980"),
+            NFTItem(R.drawable.nft8, R.drawable.wcoins, "₩410"),
+            NFTItem(R.drawable.nft9, R.drawable.wcoins, "₩343")
         )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)

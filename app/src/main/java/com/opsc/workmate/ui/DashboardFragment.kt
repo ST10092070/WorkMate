@@ -1,5 +1,6 @@
 package com.opsc.workmate.ui
 
+import android.content.Intent
 import com.opsc.workmate.data.EntryAdapter
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.opsc.workmate.MainActivity
 import com.opsc.workmate.R
 import com.opsc.workmate.data.Category
 import com.opsc.workmate.data.CategoryAdapter
@@ -95,8 +97,10 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
             auth.signOut()
 
             Toast.makeText(context,"Signing out...", Toast.LENGTH_SHORT).show()
-            //navigating to the login fragment
-            replaceFragment(LoginFragment())
+            //navigate to login ACTIVITY
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+
         }
 
         return view
@@ -188,11 +192,4 @@ class DashboardFragment : Fragment(), EntryAdapter.OnItemClickListener, Category
         findNavController().navigate(R.id.action_dashboardFragment_to_categoryDetailsFragment, bundle)
     }
 
-    fun replaceFragment(fragment : Fragment){
-
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainer,fragment)
-        fragmentTransaction.commit()
-    }
 }

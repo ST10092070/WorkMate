@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
 
-class PhotoAdapter(private val photoList: List<NFTitem>) :
+class PhotoAdapter(private val photoList: List<NFTItem>) :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
