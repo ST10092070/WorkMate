@@ -32,16 +32,25 @@
             android:id="@+id/action_newEntryFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
     </fragment>
+
     <fragment
+        android:id="@+id/marketFragment"
+        android:name="com.opsc.workmate.ui.MarketFragment"
+        android:label="fragment_marketfragment"
+        tools:layout="@layout/fragment_market" />
+
+        <fragment
         android:id="@+id/reportsFragment"
         android:name="com.opsc.workmate.ui.ReportsFragment"
         android:label="fragment_reportsfragment"
         tools:layout="@layout/fragment_reportsfragment" />
+
     <fragment
         android:id="@+id/graphsFragment"
         android:name="com.opsc.workmate.ui.GraphsFragment"
         android:label="fragment_graphs"
         tools:layout="@layout/fragment_graphs" />
+
     <fragment
         android:id="@+id/createCategoryFragment"
         android:name="com.opsc.workmate.ui.CreateCategoryFragment"

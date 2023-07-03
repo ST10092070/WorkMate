@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MarketFragment"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="SPEND YOUR CURRENCY"
+        android:textSize="32dp"
+        android:textColor="@color/gold"
+        android:textStyle="bold"
+        />
+
+    <View
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/currency"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/coin"
+                android:textColor="#529C90"
+                android:textSize="35dp" />
+
+            <TextView
+                android:id="@+id/txtWorkCoins"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textColor="@color/gold"
+                android:textSize="25dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:gravity="bottom|center"
+            android:text="NFT's"
+            android:textColor="@color/white"
+            android:textSize="35dp"
+            android:textStyle="bold"/>
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="130dp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="14dp"
+        android:background="@color/white"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_photo"/>
+
+
+    <View
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="COLOR SCHEMES"
+        android:textColor="@color/white"
+        android:textSize="26dp"
+        android:textStyle="bold"/>
+
+
+    <View
+        android:layout_width="220dp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+    
+    <GridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        tools:listitem="@layout/grid_layout"
+        android:numColumns="3"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"/>
+
+    <View
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="CREATOR DONATIONS"
+        android:textColor="@color/white"
+        android:textSize="26dp"
+        android:textStyle="bold"/>
+
+
+    <View
+        android:layout_width="282dp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/btnR10"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="R10,00"
+            android:backgroundTint="@color/gold"/>
+
+        <Button
+            android:id="@+id/btnR25"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="R25,00"
+            android:backgroundTint="@color/gold"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/btnR50"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="R50,00"
+            android:backgroundTint="@color/gold"/>
+
+        <Button
+            android:id="@+id/btnR100"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="R100,00"
+            android:backgroundTint="@color/gold"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+</LinearLayout>

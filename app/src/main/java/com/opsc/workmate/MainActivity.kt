@@ -65,26 +65,32 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.graphsFragment -> {
-                    // Handle the Add Entry menu item click
+                    // Handle the graphs menu item click
                     navController.navigate(R.id.graphsFragment)
                     drawerLayout.closeDrawers()
                     true
                 }
                 R.id.reportsFragment -> {
-                    // Handle the Add Entry menu item click
+                    // Handle the reports menu item click
                     navController.navigate(R.id.reportsFragment)
                     drawerLayout.closeDrawers()
                     true
                 }
                 R.id.entriesFragment -> {
-                    // Handle the Add Entry menu item click
+                    // Handle the entries menu item click
                     navController.navigate(R.id.entriesFragment)
                     drawerLayout.closeDrawers()
                     true
                 }
                 R.id.goalsFragment -> {
-                    // Handle the Add Entry menu item click
+                    // Handle the goals menu item click
                     navController.navigate(R.id.goalsFragment)
+                    drawerLayout.closeDrawers()
+                    true
+                }
+                R.id.marketFragment-> {
+                    // Handle the work mate market menu item click
+                    navController.navigate(R.id.marketFragment)
                     drawerLayout.closeDrawers()
                     true
                 }

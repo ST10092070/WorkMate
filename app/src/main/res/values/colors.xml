@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <!-- App theme colours -->
     <color name="background">#666666</color>
@@ -18,6 +19,15 @@
     <color name="red">#CE2A27</color>
     <color name="lightBlue">#6FA7DB</color>
     <color name="gold">#BF9106</color>
+
+    <!-- work mate market colors-->
+    <color name="orange">#FFA500</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="indigo">#4B0082</color>
+    <color name="violet">#8F00FF</color>
+    <color name="pink">#FFC0CB</color>
+    <color name="brown">#964B00</color>
 
 
 </resources>
