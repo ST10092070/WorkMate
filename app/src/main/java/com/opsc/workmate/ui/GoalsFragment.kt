@@ -127,7 +127,7 @@ class GoalsFragment : Fragment() {
 
         //Set fields to current time
         txtMin.text = "MIN : $minTime"
-        txtMax.text = "MIN : $maxTime"
+        txtMax.text = "MAX : $maxTime"
 
         //Calculate progress bars data
         var zeroToMinPercentage = (duration.toFloat() / minMinutes) * 100

@@ -12,6 +12,10 @@ import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
 import com.opsc.workmate.R
 
+// ST10092070 Corne’ Ackerman
+// ST10092081 Sibusiso Ntuli
+// ST10119490 Thiashen Naik
+// ST10092423 Gianna Thusi
 
 class MainActivity : AppCompatActivity() {
 

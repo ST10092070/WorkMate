@@ -137,6 +137,9 @@ class EntriesFragment : Fragment(), EntryAdapter.OnItemClickListener {
         val btnEntriesCategoryPicker : Button = requireView().findViewById(R.id.btnEntriesCategoryPicker)
         val categoryName = btnEntriesCategoryPicker.text.toString()
 
+        //Get Updated Entries List
+        //TODO
+
         val entries = Global.entries
         val filteredEntries: MutableList<Entry> = mutableListOf()
 
