@@ -1,9 +1,11 @@
 package com.opsc.workmate
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -16,6 +18,23 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     lateinit var navView: NavigationView
+
+    //notifications
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0) {
+            // Check if the user granted the permission or not
+            val notificationManagerCompat = NotificationManagerCompat.from(this)
+            val areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled()
+
+            if (areNotificationsEnabled) {
+                // Permission granted, handle accordingly
+            } else {
+                // Permission not granted, handle accordingly
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

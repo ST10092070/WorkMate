@@ -8,6 +8,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat.getSystemService
 
 object NotificationChannel {
     const val CHANNEL1 = "channel_id_1"
@@ -29,6 +30,7 @@ object NotificationChannel {
 
             Log.i("NotificationChannel", notificationChannel.lockscreenVisibility.toString())
         }
+
     }
 
 }

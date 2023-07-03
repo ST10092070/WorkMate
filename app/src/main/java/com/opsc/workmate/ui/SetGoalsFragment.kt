@@ -1,5 +1,6 @@
 package com.opsc.workmate.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
@@ -109,6 +110,14 @@ class SetGoalsFragment : Fragment() {
             //Show toast
         }
     }
+}
+
+private fun Notifications.simpleNotification(
+    context: Context?,
+    textTitle: String,
+    textContent: String
+) {
+    TODO("Not yet implemented")
 }
 
 //Filter class to limit what the user can type
