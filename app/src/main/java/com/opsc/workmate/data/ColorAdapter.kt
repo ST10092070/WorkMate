@@ -2,22 +2,15 @@ package com.opsc.workmate.data
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import com.opsc.workmate.R
 
-class GridAdapter(context: Context, private val colors: IntArray, private val icons: IntArray, private val amounts: Array<String>) : ArrayAdapter<String>(context, 0, amounts) {
+class ColorAdapter(context: Context, private val colors: IntArray, private val icons: IntArray, private val amounts: Array<String>) : ArrayAdapter<String>(context, 0, amounts) {
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

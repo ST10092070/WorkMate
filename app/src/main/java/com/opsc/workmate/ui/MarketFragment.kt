@@ -18,7 +18,7 @@ import com.opsc.workmate.R
 import com.opsc.workmate.data.ColorItem
 import com.opsc.workmate.data.DataManager
 import com.opsc.workmate.data.Global
-import com.opsc.workmate.data.GridAdapter
+import com.opsc.workmate.data.ColorAdapter
 import com.opsc.workmate.data.PhotoAdapter
 import com.opsc.workmate.data.NFTItem
 
@@ -72,36 +72,41 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
 
         // Create an array of amounts for the text views
         val amounts = arrayOf(
-            "₩8",
-            "₩34",
-            "₩10",
-            "₩21",
-            "₩25",
-            "₩157",
-            "₩120",
-            "₩35",
-            "₩86"
+            "48",
+            "34",
+            "10",
+            "21",
+            "25",
+            "157",
+            "120",
+            "35",
+            "86"
         )
 
         val NFTs = listOf(
-            NFTItem(R.drawable.nft1, R.drawable.wcoins, "₩643"),
-            NFTItem(R.drawable.nft2, R.drawable.wcoins, "₩498"),
-            NFTItem(R.drawable.nft3, R.drawable.wcoins, "₩954"),
-            NFTItem(R.drawable.nft4, R.drawable.wcoins, "₩834"),
-            NFTItem(R.drawable.nft5, R.drawable.wcoins, "₩1760"),
-            NFTItem(R.drawable.nft6, R.drawable.wcoins, "₩503"),
-            NFTItem(R.drawable.nft7, R.drawable.wcoins, "₩1980"),
-            NFTItem(R.drawable.nft8, R.drawable.wcoins, "₩410"),
-            NFTItem(R.drawable.nft9, R.drawable.wcoins, "₩343")
+            NFTItem(R.drawable.nft1, R.drawable.wcoins, 643),
+            NFTItem(R.drawable.nft2, R.drawable.wcoins, 498),
+            NFTItem(R.drawable.nft3, R.drawable.wcoins, 954),
+            NFTItem(R.drawable.nft4, R.drawable.wcoins, 834),
+            NFTItem(R.drawable.nft5, R.drawable.wcoins, 1760),
+            NFTItem(R.drawable.nft6, R.drawable.wcoins, 503),
+            NFTItem(R.drawable.nft7, R.drawable.wcoins, 1980),
+            NFTItem(R.drawable.nft8, R.drawable.wcoins, 410),
+            NFTItem(R.drawable.nft9, R.drawable.wcoins, 343)
         )
 
-        for(i in colors.indices){
-            //populate the grid view
-            grid_color = listOf(
-                ColorItem(colors[i], icons[i], amounts[i])
-            )
-        }
+        grid_color = listOf(
+            ColorItem(R.color.red, R.drawable.wcoins, 48),
+            ColorItem(R.color.orange, R.drawable.wcoins, 34),
+            ColorItem(R.color.yellow, R.drawable.wcoins, 10),
+            ColorItem(R.color.green, R.drawable.wcoins, 21),
+            ColorItem(R.color.blue, R.drawable.wcoins, 25),
+            ColorItem(R.color.indigo, R.drawable.wcoins, 157),
+            ColorItem(R.color.violet, R.drawable.wcoins, 120),
+            ColorItem(R.color.pink, R.drawable.wcoins, 35),
+            ColorItem(R.color.brown, R.drawable.wcoins, 86)
 
+        )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -111,10 +116,10 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
         recyclerView.adapter = photoAdapter
 
         // Create an adapter with the colors, icons and amounts arrays
-        val gridAdapter = GridAdapter(requireContext(), colors, icons, amounts)
+        val colorAdapter = ColorAdapter(requireContext(), colors, icons, amounts)
 
         // Set the adapter to the grid view
-        gridView.adapter = gridAdapter
+        gridView.adapter = colorAdapter
 
         work_coins = view.findViewById(R.id.txtWorkCoins)
 
@@ -154,28 +159,34 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         // Handle item click event
         val selectedItem = grid_color[position]
-
+        var user_coins: Int
+        var color_purchase_amount: Int
         try{
             DataManager.getWorkcoins(Global.currentUser!!.uid.toString()){ coins ->
-                val user_coins = coins.toString().toInt()
-                val color_purchase_amount = selectedItem.currency.toInt()
-                if(user_coins > color_purchase_amount){
+                user_coins = coins.toString().toInt()
+                color_purchase_amount = selectedItem.currency
+                if(user_coins < color_purchase_amount){
                     val difference = color_purchase_amount - user_coins
-                    Toast.makeText(requireContext(), "Insufficient funds you need ₩ $difference to make this purchase! Try doing more activities to earn more coins", Toast.LENGTH_SHORT).show()
-                }else{
+                    Toast.makeText(requireContext(), "Insufficient funds you need ₩ $difference to make this purchase!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Try doing more activities to earn more coins, keep ₩orking :)", Toast.LENGTH_SHORT).show()
+                }
+
+                if(user_coins > color_purchase_amount){
                     //deduct the amount of the purchased color
-                    val deduction = user_coins - color_purchase_amount
+                    var deduction = user_coins - color_purchase_amount
                     DataManager.setWorkcoins(deduction) { isSuccess ->
                         if (isSuccess){
-                            Toast.makeText(activity, "₩ $color_purchase_amount coins were deducted from your account, keep working :)", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "Purchase successful, ₩ $color_purchase_amount coins were deducted from your account, keep ₩orking :)", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
+
             }
+
+
+
         }catch (e: Exception){
             Log.d("coins exception",e.message.toString())
         }
-
-        Toast.makeText(requireContext(), "Clicked: $selectedItem", Toast.LENGTH_SHORT).show()
     }
 }

@@ -21,7 +21,7 @@ class PhotoAdapter(private val photoList: List<NFTItem>) :
         val photoItem = photoList[position]
         holder.NFT.setImageResource(photoItem.nft)
         holder.icon.setImageResource(photoItem.coinIcon)
-        holder.amount.text = photoItem.amount
+        holder.amount.text = photoItem.amount.toString()
     }
 
     override fun getItemCount(): Int {
