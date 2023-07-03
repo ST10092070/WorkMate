@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.opsc.workmate.R
 import org.w3c.dom.Text
@@ -52,6 +54,7 @@ class EntryAdapter(private var entries: List<Entry>) :
         private val txtDuration: TextView = itemView.findViewById(R.id.txtDuration)
         private val imgHasImage: ImageView = itemView.findViewById(R.id.imgHasImage)
         private val txtCatName: TextView = itemView.findViewById(R.id.txtCatName)
+        private val entryLinearLayout: LinearLayoutCompat = itemView.findViewById(R.id.entryLinearLayout)
 
         fun bind(entry: Entry) {
             txtEntryDate.text = entry.date
@@ -68,6 +71,12 @@ class EntryAdapter(private var entries: List<Entry>) :
 
             //Set category name
             txtCatName.text = entry.categoryName
+
+            //Set colour of entry to category colour
+            var colour = Global.categories.find { it.name.equals(entry.categoryName, ignoreCase = true) }?.colour
+
+            if (colour != null)
+                entryLinearLayout.setBackgroundColor(colour)
 
         }
 
