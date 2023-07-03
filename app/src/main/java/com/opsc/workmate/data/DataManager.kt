@@ -5,6 +5,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.values
 
 object DataManager {
 
@@ -220,7 +221,7 @@ object DataManager {
         }
     }
 
-    fun getWorkcoins(uid: String, callback: (Any) -> Unit) {
+    fun getWorkcoins(uid: String, callback: (Int) -> Unit) {
 
         val database = FirebaseDatabase.getInstance()
         val userRef = database.getReference(USERS_COLLECTION)
@@ -231,7 +232,7 @@ object DataManager {
         workcoinsRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    val workcoins = dataSnapshot.value
+                    val workcoins: Int = dataSnapshot.value.toString().toInt()
 
                     if(workcoins!=null){
                         callback(workcoins)
