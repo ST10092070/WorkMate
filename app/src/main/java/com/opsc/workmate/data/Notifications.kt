@@ -1,6 +1,7 @@
 package com.opsc.workmate.data
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.opsc.workmate.MainActivity
 
 object Notifications {
+    @SuppressLint("SuspiciousIndentation")
     fun simpleNotification(context: Context?, textTitle: String, textContent: String) {
         val notificationId = 12313
         val builder = context?.let {
@@ -27,13 +29,19 @@ object Notifications {
 
         val notificationManagerCompat = context?.let { NotificationManagerCompat.from(it) }
 
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
+        if (context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            } != PackageManager.PERMISSION_GRANTED
         )
 
-        notificationManagerCompat.notify(notificationId, builder.build())
+            if (notificationManagerCompat != null) {
+                if (builder != null) {
+                    notificationManagerCompat.notify(notificationId, builder.build())
+                }
+            }
     }
 
     private fun addContentIntent(context: Context?): PendingIntent {

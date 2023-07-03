@@ -53,6 +53,12 @@ class SetGoalsFragment : Fragment() {
                 edtMaxTime.text.toString(),
                 Global.currentUser!!.uid.toString()
             )
+            //Notifications.simpleNotification(context, "Goal set!", "Minimum and maximum time has been added.")
+        }
+
+        btnSetGoals = view.findViewById(R.id.btnConfirmGoals)
+        btnSetGoals.setOnClickListener {
+
             Notifications.simpleNotification(context, "Goal set!", "Minimum and maximum time has been added.")
         }
 

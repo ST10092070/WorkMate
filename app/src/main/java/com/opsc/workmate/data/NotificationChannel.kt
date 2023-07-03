@@ -3,6 +3,7 @@ package com.opsc.workmate.data
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.os.Build
 import android.util.Log
