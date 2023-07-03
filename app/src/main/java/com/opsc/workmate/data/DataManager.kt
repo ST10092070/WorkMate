@@ -205,7 +205,7 @@ object DataManager {
         // Add the category to the Firebase database using the generated ID
         if (id != null) {
             val workcoinsRef = userRef.child(id).child("workcoins")
-            workcoinsRef.child(id).setValue(workcoins)
+            workcoinsRef.setValue(workcoins)
                 .addOnSuccessListener {
                     // Category added successfully
                     callback(true) // Invoke the success callback
@@ -221,7 +221,6 @@ object DataManager {
     }
 
     fun getWorkcoins(uid: String, callback: (Any) -> Unit) {
-
 
         val database = FirebaseDatabase.getInstance()
         val userRef = database.getReference(USERS_COLLECTION)
