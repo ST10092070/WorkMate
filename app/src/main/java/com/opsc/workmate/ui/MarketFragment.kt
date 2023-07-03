@@ -156,37 +156,49 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
         }
     }
 
+    var isDeductionMade = false // Flag variable to track deduction
+
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         // Handle item click event
         val selectedItem = grid_color[position]
-        var user_coins: Int
-        var color_purchase_amount: Int
-        try{
-            DataManager.getWorkcoins(Global.currentUser!!.uid.toString()){ coins ->
-                user_coins = coins.toString().toInt()
-                color_purchase_amount = selectedItem.currency
-                if(user_coins < color_purchase_amount){
-                    val difference = color_purchase_amount - user_coins
-                    Toast.makeText(requireContext(), "Insufficient funds you need ₩ $difference to make this purchase!", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(requireContext(), "Try doing more activities to earn more coins, keep ₩orking :)", Toast.LENGTH_SHORT).show()
-                }
+        isDeductionMade = false
+        try {
+            DataManager.getWorkcoins(Global.currentUser!!.uid.toString()) { coins ->
+                val userCoins = coins.toString().toInt()
+                val colorPurchaseAmount = selectedItem.currency
 
-                if(user_coins > color_purchase_amount){
-                    //deduct the amount of the purchased color
-                    var deduction = user_coins - color_purchase_amount
-                    DataManager.setWorkcoins(deduction) { isSuccess ->
-                        if (isSuccess){
-                            Toast.makeText(activity, "Purchase successful, ₩ $color_purchase_amount coins were deducted from your account, keep ₩orking :)", Toast.LENGTH_SHORT).show()
+                if (!isDeductionMade) {
+                    if (userCoins < colorPurchaseAmount) {
+                        val difference = colorPurchaseAmount - userCoins
+                        Toast.makeText(
+                            requireContext(),
+                            "Insufficient funds. You need ₩ $difference to make this purchase!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Try doing more activities to earn more coins, keep working :)",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        // Deduct the amount of the purchased color
+                        val deduction = userCoins - colorPurchaseAmount
+                        DataManager.setWorkcoins(deduction) { isSuccess ->
+                            if (isSuccess) {
+                                isDeductionMade = true // Set the flag to indicate deduction is made
+                                Toast.makeText(
+                                    activity,
+                                    "Purchase successful, ₩ $colorPurchaseAmount coins were deducted from your account, keep ₩orking :)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
-
             }
-
-
-
-        }catch (e: Exception){
-            Log.d("coins exception",e.message.toString())
+        } catch (e: Exception) {
+            Log.d("coins exception", e.message.toString())
         }
     }
+
 }
