@@ -108,7 +108,7 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
 
         )
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = view.findViewById(R.id.NFTrecyclerView)
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
 
@@ -129,16 +129,16 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
         val btn100 = view.findViewById<Button>(R.id.btnR100)
 
         btn10.setOnClickListener {
-            Toast.makeText(context, "Thank you, Your donation of R10 has been received.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Thank you &#x2764;, Your donation of R10 has been received.", Toast.LENGTH_SHORT).show()
         }
         btn25.setOnClickListener {
-            Toast.makeText(context, "Thank you, Your donation of R25 has been received.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Thank you &#x2764;, Your donation of R25 has been received.", Toast.LENGTH_SHORT).show()
         }
         btn50.setOnClickListener {
-            Toast.makeText(context, "Thank you, Your donation of R50 has been received.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Thank you &#x2764;, Your donation of R50 has been received.", Toast.LENGTH_SHORT).show()
         }
         btn100.setOnClickListener {
-            Toast.makeText(context, "Thank you, Your donation of R100 has been received.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Thank you &#x2764;, Your donation of R100 has been received.", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -165,26 +165,21 @@ class MarketFragment : Fragment(), AdapterView.OnItemClickListener  {
             DataManager.getWorkcoins(Global.currentUser!!.uid.toString()){ coins ->
                 user_coins = coins.toString().toInt()
                 color_purchase_amount = selectedItem.currency
-                if(user_coins < color_purchase_amount){
-                    val difference = color_purchase_amount - user_coins
-                    Toast.makeText(requireContext(), "Insufficient funds you need ₩ $difference to make this purchase!", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(requireContext(), "Try doing more activities to earn more coins, keep ₩orking :)", Toast.LENGTH_SHORT).show()
-                }
-
                 if(user_coins > color_purchase_amount){
                     //deduct the amount of the purchased color
                     var deduction = user_coins - color_purchase_amount
                     DataManager.setWorkcoins(deduction) { isSuccess ->
-                        if (isSuccess){
-                            Toast.makeText(activity, "Purchase successful, ₩ $color_purchase_amount coins were deducted from your account, keep ₩orking :)", Toast.LENGTH_SHORT).show()
-                        }
+                        if (isSuccess)
+                            Toast.makeText(activity, "Purchase successful, ₩ $color_purchase_amount coins were deducted from your account, keep working :)", Toast.LENGTH_SHORT).show()
+                        Log.d("purchase successful","₩ $color_purchase_amount coins were deducted from your account, keep working :)")
                     }
+                }else{
+                    val difference = color_purchase_amount - user_coins
+                    Log.d("purchase unsuccessful","₩ $color_purchase_amount coins were deducted from your account, keep working :)")
+                    Toast.makeText(requireContext(), "Insufficient funds you need ₩ $difference to make this purchase!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Try doing more activities to earn more coins, keep working :)", Toast.LENGTH_SHORT).show()
                 }
-
             }
-
-
-
         }catch (e: Exception){
             Log.d("coins exception",e.message.toString())
         }
